@@ -30,5 +30,10 @@ MODULE unload iptables-insert
 127.0.0.1:6379> iptables.push 192.168.188.8 192.168.188.8
 (integer) 13
 ```
-
+```
+root@debian:~# iptables -L -n
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+DROP       all  --  192.168.188.8        0.0.0.0/0 
+```
 
