@@ -28,7 +28,6 @@ int IptablesPush_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int
 		return -1;
 	} else if (pid == 0) {
 		execl("/bin/sh", "sh", "-c", command, NULL);
-		return -1;
 	}
 
 	RedisModule_StringSet(key, argv[2]);
