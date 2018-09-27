@@ -1,6 +1,7 @@
 # RedisPushIptables
 
 This README is just a fast quick start document.
+# Redis must be run by root users, because iptables needs to submit the kernel.
 
 In order to test the module you are developing, you can load the module using the following redis.conf configuration directive:
 
@@ -20,16 +21,10 @@ In order to list all loaded modules, use:
 MODULE LIST
 ```
 Finally, you can unload (and later reload if you wish) a module using the following command:
-```
 
+```
 MODULE unload iptables-insert 
 ```
-``````
-
-
-# Redis must be run by root users, because iptables needs to submit the kernel.
-
-
 
 ```
 127.0.0.1:6379> MODULE load /root/redis-4.0.9/src/modules/iptablespush.so
