@@ -69,9 +69,10 @@ int IptablesPush_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int
 			RedisModule_StringPtrLen(argv[2], NULL));
 	fd = execute_popen(&pid, check_command);
 	if (0 < read(fd, tmp_buf, sizeof(tmp_buf) - 1)) {
+		close(fd);
 		execute_popen(&pid, insert_command);
 	}
-
+        close(fd);
 	RedisModule_StringSet(key, argv[2]);
 	size_t newlen = RedisModule_ValueLength(key);
 	RedisModule_CloseKey(key);
