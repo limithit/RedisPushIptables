@@ -205,10 +205,10 @@ int RedisModule_OnLoad(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) 
 			DROP_Delete_RedisCommand, "write deny-oom", 1, 1, 1) == REDISMODULE_ERR)
 		return REDISMODULE_ERR;
 	if (RedisModule_CreateCommand(ctx, "accept.insert",
-			ACCEPT_Insert_RedisCommand, "write deny-oom", 1, 1,	1) == REDISMODULE_ERR)
+			ACCEPT_Insert_RedisCommand, "write deny-oom", 1, 1, 1) == REDISMODULE_ERR)
 		return REDISMODULE_ERR;
 	if (RedisModule_CreateCommand(ctx, "accept.delete",
-			ACCEPT_Delete_RedisCommand, "write deny-oom", 1, 1,	1) == REDISMODULE_ERR)
+			ACCEPT_Delete_RedisCommand, "write deny-oom", 1, 1, 1) == REDISMODULE_ERR)
 		return REDISMODULE_ERR;
 
 
