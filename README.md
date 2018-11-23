@@ -27,10 +27,10 @@ Finally, you can unload (and later reload if you wish) a module using the follow
 MODULE unload iptables-input-filter
 ```
 ### Core
-* [accept.insert](https://github.com/limithit/RedisPushIptables/accept.insert) - Filter table INPUT ADD ACCEPT
-* [accept.delete](https://github.com/limithit/RedisPushIptables/accept.delete) - Filter table INPUT DEL ACCEPT
-* [drop.insert](https://github.com/limithit/RedisPushIptables/drop.insert) - Filter table INPUT ADD DROP
-* [drop.delete](https://github.com/limithit/RedisPushIptables/drop.delete) - Filter table INPUT DEL DROP
+* [accept.insert]  Filter table INPUT ADD ACCEPT
+* [accept.delete]  Filter table INPUT DEL ACCEPT
+* [drop.insert]   Filter table INPUT ADD DROP
+* [drop.delete]   Filter table INPUT DEL DROP
 ```
 127.0.0.1:6379>accept.insert 192.168.188.8
 (integer) 13
