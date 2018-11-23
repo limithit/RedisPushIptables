@@ -143,8 +143,8 @@ int ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 			RedisModule_StringPtrLen(argv[1], NULL));
 	sprintf(insert_command, "iptables -I INPUT -s %s -j ACCEPT",
 			RedisModule_StringPtrLen(argv[1], NULL));
-	printf("%s || %s\n", RedisModule_StringPtrLen(argv[1], NULL),
-			RedisModule_StringPtrLen(argv[2], NULL));
+	printf("%s || %s\n", RedisModule_StringPtrLen(argv[0], NULL),
+			RedisModule_StringPtrLen(argv[1], NULL));
 	fd = execute_popen(&pid, check_command);
 	redis_waitpid(pid);
 	if (0 < read(fd, tmp_buf, sizeof(tmp_buf) - 1)) {
