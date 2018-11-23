@@ -24,10 +24,21 @@ MODULE LIST
 Finally, you can unload (and later reload if you wish) a module using the following command:
 
 ```
-MODULE unload iptables-insert
+MODULE unload iptables-input-filter
 ```
+### Core
+* [accept.insert](https://github.com/limithit/RedisPushIptables/accept.insert) - Filter table INPUT ADD ACCEPT
+* [accept.delete](https://github.com/limithit/RedisPushIptables/accept.delete) - Filter table INPUT DEL ACCEPT
+* [drop.insert](https://github.com/limithit/RedisPushIptables/drop.insert) - Filter table INPUT ADD DROP
+* [drop.delete](https://github.com/limithit/RedisPushIptables/drop.delete) - Filter table INPUT DEL DROP
 ```
-127.0.0.1:6379> iptables.push 192.168.188.8 192.168.188.8
+127.0.0.1:6379>accept.insert 192.168.188.8
+(integer) 13
+127.0.0.1:6379>accept.delete 192.168.188.8
+(integer) 13
+127.0.0.1:6379>drop.delete 192.168.188.8
+(integer) 13
+127.0.0.1:6379>drop.insert 192.168.188.8
 (integer) 13
 ```
 ```
@@ -35,5 +46,6 @@ root@debian:~# iptables -L -n
 Chain INPUT (policy ACCEPT)
 target     prot opt source               destination         
 DROP       all  --  192.168.188.8        0.0.0.0/0 
+ACCEPT       all  --  192.168.188.8        0.0.0.0/0 
 ```
 
