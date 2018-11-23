@@ -49,3 +49,4 @@ DROP       all  --  192.168.188.8        0.0.0.0/0
 ACCEPT       all  --  192.168.188.8        0.0.0.0/0 
 ```
 
+Author Gandalf zhibu1991@gmail.com
