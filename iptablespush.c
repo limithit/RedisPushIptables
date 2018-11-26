@@ -121,7 +121,7 @@ int DROP_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
 	fd = execute_popen(&pid, insert_command);
 	close(fd);
 
-	RedisModule_StringSet(key, argv[1]);
+	RedisModule_DeleteKey(key);
 	size_t newlen = RedisModule_ValueLength(key);
 	RedisModule_CloseKey(key);
 	RedisModule_ReplyWithLongLong(ctx, newlen);
@@ -179,7 +179,7 @@ int ACCEPT_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 	fd = execute_popen(&pid, insert_command);
 	close(fd);
 
-	RedisModule_StringSet(key, argv[1]);
+	RedisModule_DeleteKey(key);
 	size_t newlen = RedisModule_ValueLength(key);
 	RedisModule_CloseKey(key);
 	RedisModule_ReplyWithLongLong(ctx, newlen);
