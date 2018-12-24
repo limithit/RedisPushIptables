@@ -48,6 +48,10 @@ target     prot opt source               destination
 DROP       all  --  192.168.188.8        0.0.0.0/0 
 ACCEPT       all  --  192.168.188.8        0.0.0.0/0 
 ```
+Lauchpad Pump Demo
+=========================
+Click below for a video of the pump controller demo in operation:
 
 [![Pump Demo Video](https://github.com/limithit/RedisPushIptables/blob/master/demo.jpeg)](https://youtu.be/A9kL9ahC384)
+
 Author Gandalf zhibu1991@gmail.com
