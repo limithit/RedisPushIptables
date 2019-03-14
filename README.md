@@ -56,6 +56,7 @@ You can load the module using the following redis.conf configuration directive:
 
 ```
 notify-keyspace-events Ex
+#notify-keyspace-events ""  # Comment out this line
 ```
 Running ttl_iptables daemon with root user
 
@@ -107,7 +108,141 @@ ACCEPT       all  --  192.168.188.8        0.0.0.0/0
    cd RedisPushIptables
    make 
    ```
-   
+## Client usage example
+In theory, except for the C language native support API call, the corresponding library before the other language API calls must be re-encapsulated because the third-party modules are not supported by other languages. Here only demonstrate the similarities of c and python in other languages.
+
+### C
+
+C language only needs to compile and install hiredis. Proceed as follows:
+```
+root@debian:~/bookscode/redis-5.0.3/deps/hiredis#make install
+```
+cat examples.c
+
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <hiredis.h>
+int main(int argc, char **argv) {
+    unsigned int j;
+    redisContext *c;
+    redisReply *reply;
+    const char *hostname = (argc > 1) ? argv[1] : "127.0.0.1";
+    int port = (argc > 2) ? atoi(argv[2]) : 6379;
+    struct timeval timeout = { 1, 500000 }; // 1.5 seconds
+    c = redisConnectWithTimeout(hostname, port, timeout);
+    if (c == NULL || c->err) {
+        if (c) {
+            printf("Connection error: %s\n", c->errstr);
+            redisFree(c);
+        } else {
+            printf("Connection error: can't allocate redis context\n");
+        }
+        exit(1);
+}
+
+    reply = redisCommand(c,"drop.insert 192.168.18.3");
+    printf("%d\n", reply->integer);
+    freeReplyObject(reply);
+    reply = redisCommand(c,"accept.insert 192.168.18.4");
+    printf("%d\n", reply->integer);
+    freeReplyObject(reply);
+
+    reply = redisCommand(c,"drop.delete 192.168.18.3");
+    printf("%d\n", reply->integer);
+    freeReplyObject(reply);
+
+    reply = redisCommand(c,"accept.delete 192.168.18.5");
+    printf("%d\n", reply->integer);
+    freeReplyObject(reply);
+    
+    reply = redisCommand(c,"ttl.drop.insert 192.168.18.5 600");
+    printf("%d\n", reply->integer);
+    freeReplyObject(reply);
+    redisFree(c);
+
+    return 0;
+}
+```
+gcc example.c -I/usr/local/include/hiredis –lhiredis
+
+### Python
+
+```
+root@debian:~/bookscode# git clone https://github.com/andymccurdy/redis-py.git
+```
+After downloading, don't rush to compile and install. First edit the redis-py/redis/client.py file and add the code as follows:
+
+```
+       # COMMAND EXECUTION AND PROTOCOL PARSING
+      def execute_command(self, *args, **options):
+          "Execute a command and return a parsed response"
+           .....
+           .....
+        
+      def drop_insert(self, name):
+          """
+          Return the value at key ``name``, or None if the key doesn't exist
+          """
+          return self.execute_command('drop.insert', name)
+      
+      def accept_insert(self, name):
+          """
+          Return the value at key ``name``, or None if the key doesn't exist
+          """
+          return self.execute_command('accept.insert', name)
+      
+      def drop_delete(self, name):
+          """
+          Return the value at key ``name``, or None if the key doesn't exist
+          """
+          return self.execute_command('drop.delete', name)
+  
+      def accept_delete(self, name):
+          """
+          Return the value at key ``name``, or None if the key doesn't exist
+          """
+          return self.execute_command('accept.delete', name)
+ 
+      def ttl_drop_insert(self, name, blocktime):
+          """
+          Return the value at key ``name``, or None if the key doesn't exist
+          """
+         return self.execute_command('ttl.drop.insert', name, blocktime)
+```
+```
+root@debian:~/bookscode/redis-py# python setup.py build        
+root@debian:~/bookscode/redis-py# python setup.py install        
+root@debian:~/bookscode/8/redis-py# python
+Python 2.7.3 (default, Nov 19 2017, 01:35:09) 
+[GCC 4.7.2] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import redis
+>>> r = redis.Redis(host='localhost', port=6379, db=0)
+>>> r.drop_insert('192.168.18.7')
+12L
+>>> r.accept_insert('192.168.18.7')
+12L
+>>> r.accept_delete('192.168.18.7')
+0L
+>>> r.drop_delete('192.168.18.7')
+0L
+>>> r.ttl_drop_insert('192.168.18.7', 600)
+12L
+>>>
+```
+### Bash
+```
+#!/bin/bash
+
+redis-cli TTL.DROP.INSERT 192.168.18.5 60 
+redis-cli DROP.INSERT 192.168.18.5 
+redis-cli DROP.DELETE 192.168.18.5 
+redis-cli ACCEPT.DELETE 192.168.18.5
+redis-cli ACCEPT.INSERT 192.168.18.5
+```
+
 Lauchpad Pump Demo
 =========================
 Click below for a video of the pump controller demo in operation:
