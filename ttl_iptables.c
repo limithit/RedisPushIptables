@@ -10,6 +10,7 @@
 #include <syslog.h>
 #include <fcntl.h>
 #include <time.h>
+#include <arpa/inet.h>
 
 int redis_waitpid(pid_t pid) {
 	int rc, status;
