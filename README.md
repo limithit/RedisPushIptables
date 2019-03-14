@@ -57,7 +57,13 @@ In order to test the module you are developing, you can load the module using th
 ```
 notify-keyspace-events Ex
 ```
-Need to cooperate with daemon ttl_iptables
+Running ttl_iptables daemon with root user
+
+```
+root@debian:~/RedisPushIptables# ./ttl_iptables
+``` 
+
+Logs are viewed in /var/log/ttl_iptables.log
 
 ### Core
 * [accept.insert](https://github.com/limithit/RedisPushIptables/blob/master/README.md) - Filter table INPUT ADD ACCEPT
