@@ -175,35 +175,35 @@ root@debian:~/bookscode# git clone https://github.com/andymccurdy/redis-py.git
 After downloading, don't rush to compile and install. First edit the redis-py/redis/client.py file and add the code as follows:
 
 ```
- 430     def drop_insert(self, name):
- 431         """
- 432         Return the value at key ``name``, or None if the key doesn't exist
- 433         """
- 434         return self.execute_command('drop.insert', name)
- 435     
- 436     def accept_insert(self, name):
- 437         """
- 438         Return the value at key ``name``, or None if the key doesn't exist
- 439         """
- 440         return self.execute_command('accept.insert', name)
- 441     
- 442     def drop_delete(self, name):
- 443         """
- 444         Return the value at key ``name``, or None if the key doesn't exist
- 445         """
- 446         return self.execute_command('drop.delete', name)
- 447 
- 448     def accept_delete(self, name):
- 449         """
- 450         Return the value at key ``name``, or None if the key doesn't exist
- 451         """
- 452         return self.execute_command('accept.delete', name)
- 453
- 454     def ttl_drop_insert(self, name):
- 456         """
- 457         Return the value at key ``name``, or None if the key doesn't exist
- 458         """
- 459         return self.execute_command('ttl.drop.insert', name, blocktime)
+      def drop_insert(self, name):
+          """
+          Return the value at key ``name``, or None if the key doesn't exist
+          """
+          return self.execute_command('drop.insert', name)
+      
+      def accept_insert(self, name):
+          """
+          Return the value at key ``name``, or None if the key doesn't exist
+          """
+          return self.execute_command('accept.insert', name)
+      
+      def drop_delete(self, name):
+          """
+          Return the value at key ``name``, or None if the key doesn't exist
+          """
+          return self.execute_command('drop.delete', name)
+  
+      def accept_delete(self, name):
+          """
+          Return the value at key ``name``, or None if the key doesn't exist
+          """
+          return self.execute_command('accept.delete', name)
+ 
+      def ttl_drop_insert(self, name):
+          """
+          Return the value at key ``name``, or None if the key doesn't exist
+          """
+         return self.execute_command('ttl.drop.insert', name, blocktime)
 ```
 ```
 root@debian:~/bookscode/redis-py# python setup.py build        
