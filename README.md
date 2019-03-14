@@ -70,7 +70,6 @@ Logs are viewed in /var/log/ttl_iptables.log
 * [accept.delete](https://github.com/limithit/RedisPushIptables/blob/master/README.md) - Filter table INPUT DEL ACCEPT
 * [drop.insert](https://github.com/limithit/RedisPushIptables/blob/master/README.md) - Filter table INPUT ADD DROP
 * [drop.delete](https://github.com/limithit/RedisPushIptables/blob/master/README.md) - Filter table INPUT DEL DROP
-* [ttl.accept.insert](https://github.com/limithit/RedisPushIptables/blob/master/README.md) - Dynamic deletion filter table INPUT ADD ACCEPT
 * [ttl.drop.insert](https://github.com/limithit/RedisPushIptables/blob/master/README.md) - Dynamic deletion filter table INPUT ADD DROP
 ```
 127.0.0.1:6379>accept.insert 192.168.188.8
