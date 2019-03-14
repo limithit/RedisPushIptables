@@ -80,8 +80,6 @@ Logs are viewed in /var/log/ttl_iptables.log
 (integer) 13
 127.0.0.1:6379>drop.insert 192.168.188.8
 (integer) 13
-127.0.0.1:6379> TTL.ACCEPT.INSERT 192.168.1.5 60
-(integer) 11
 127.0.0.1:6379> TTL.DROP.INSERT 192.168.1.6 600
 (integer) 11
 ```
