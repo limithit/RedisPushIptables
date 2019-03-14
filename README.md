@@ -96,13 +96,17 @@ DROP       all  --  192.168.188.8        0.0.0.0/0
 ACCEPT       all  --  192.168.188.8        0.0.0.0/0 
 ```
 ## Installation
+
+```
   #1: Compile hiredis
     cd redis-4.0**version**/deps/hiredis
     make 
     make install 
+    
   #2: git clone  https://github.com/limithit/RedisPushIptables.git
    cd RedisPushIptables
    make 
+   ```
    
 Lauchpad Pump Demo
 =========================
