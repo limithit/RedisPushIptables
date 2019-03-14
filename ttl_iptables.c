@@ -7,10 +7,15 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <hiredis.h>
-#include <syslog.h>
 #include <fcntl.h>
 #include <time.h>
 #include <arpa/inet.h>
+   
+/*
+ * 2019-03-14
+ * Copyright (C)  西门吹雪 
+ * zhibu1991@gmail.com
+ */
 
 int redis_waitpid(pid_t pid) {
 	int rc, status;
