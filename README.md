@@ -174,7 +174,7 @@ root@debian:~/bookscode# git clone https://github.com/andymccurdy/redis-py.git
 After downloading, don't rush to compile and install. First edit the redis-py/redis/client.py file and add the code as follows:
 
 ```
-430     def drop_insert(self, name):
+ 430     def drop_insert(self, name):
  431         """
  432         Return the value at key ``name``, or None if the key doesn't exist
  433         """
