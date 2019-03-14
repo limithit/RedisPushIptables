@@ -13,7 +13,10 @@ endif
 
 .SUFFIXES: .c .so .xo .o
 
-all: iptablespush.so 
+all: iptablespush.so ttl_iptables
+
+ttl_iptables: ttl_iptables.c
+		$(CC) ttl_iptables.c -o $@ -I /usr/local/include/hiredis -lhiredis
 
 .c.xo:
 	$(CC) -I. $(CFLAGS) $(SHOBJ_CFLAGS) -fPIC -c $< -o $@
@@ -24,4 +27,4 @@ iptablespush.so: iptablespush.xo
 	$(LD) -o $@ $< $(SHOBJ_LDFLAGS) $(LIBS) -lc
 
 clean:
-	rm -rf *.xo *.so
+	rm -rf *.xo *.so ttl_iptables

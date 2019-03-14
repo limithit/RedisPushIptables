@@ -155,6 +155,7 @@ int ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 	close(fd);
 
 	RedisModule_StringSet(key, argv[1]);
+
 	size_t newlen = RedisModule_ValueLength(key);
 	RedisModule_CloseKey(key);
 	RedisModule_ReplyWithLongLong(ctx, newlen);
@@ -186,6 +187,82 @@ int ACCEPT_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 	return REDISMODULE_OK;
 }
 
+int TTL_ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
+{
+	if (argc != 3)
+			return RedisModule_WrongArity(ctx);
+		RedisModuleKey *key = RedisModule_OpenKey(ctx, argv[1],
+		REDISMODULE_READ | REDISMODULE_WRITE);
+		long long count;
+		    if ((RedisModule_StringToLongLong(argv[2],&count) != REDISMODULE_OK) ||
+		        (count < 0)) {
+		        return RedisModule_ReplyWithError(ctx,"ERR invalid count");
+		    }
+		pid_t pid;
+		int fd;
+		char tmp_buf[4096];
+
+		static char check_command[256], insert_command[256];
+		sprintf(check_command, "iptables -C INPUT -s %s -j ACCEPT",
+				RedisModule_StringPtrLen(argv[1], NULL));
+		sprintf(insert_command, "iptables -I INPUT -s %s -j ACCEPT",
+				RedisModule_StringPtrLen(argv[1], NULL));
+		printf("%s || %s\n", RedisModule_StringPtrLen(argv[0], NULL),
+				RedisModule_StringPtrLen(argv[1], NULL));
+		fd = execute_popen(&pid, check_command);
+		redis_waitpid(pid);
+		if (0 < read(fd, tmp_buf, sizeof(tmp_buf) - 1)) {
+			close(fd);
+			execute_popen(&pid, insert_command);
+			redis_waitpid(pid);
+		}
+		close(fd);
+		RedisModule_StringSet(key, argv[1]);
+		   RedisModule_SetExpire(key, count*1000);
+			size_t newlen = RedisModule_ValueLength(key);
+			RedisModule_CloseKey(key);
+			RedisModule_ReplyWithLongLong(ctx, newlen);
+		return REDISMODULE_OK;
+}
+
+int TTL_DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
+{
+	if (argc != 3)
+				return RedisModule_WrongArity(ctx);
+			RedisModuleKey *key = RedisModule_OpenKey(ctx, argv[1],
+			REDISMODULE_READ | REDISMODULE_WRITE);
+			long long count;
+			    if ((RedisModule_StringToLongLong(argv[2],&count) != REDISMODULE_OK) ||
+			        (count < 0)) {
+			        return RedisModule_ReplyWithError(ctx,"ERR invalid count");
+			    }
+			pid_t pid;
+			int fd;
+			char tmp_buf[4096];
+
+			static char check_command[256], insert_command[256];
+			sprintf(check_command, "iptables -C INPUT -s %s -j DROP",
+					RedisModule_StringPtrLen(argv[1], NULL));
+			sprintf(insert_command, "iptables -I INPUT -s %s -j DROP",
+					RedisModule_StringPtrLen(argv[1], NULL));
+			printf("%s || %s\n", RedisModule_StringPtrLen(argv[0], NULL),
+					RedisModule_StringPtrLen(argv[1], NULL));
+			fd = execute_popen(&pid, check_command);
+			redis_waitpid(pid);
+			if (0 < read(fd, tmp_buf, sizeof(tmp_buf) - 1)) {
+				close(fd);
+				execute_popen(&pid, insert_command);
+				redis_waitpid(pid);
+			}
+			close(fd);
+			RedisModule_StringSet(key, argv[1]);
+			   RedisModule_SetExpire(key, count*1000);
+				size_t newlen = RedisModule_ValueLength(key);
+				RedisModule_CloseKey(key);
+				RedisModule_ReplyWithLongLong(ctx, newlen);
+			return REDISMODULE_OK;
+}
+
 /* This function must be present on each Redis module. It is used in order to
  * register the commands into the Redis server. */
 int RedisModule_OnLoad(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) {
@@ -210,7 +287,12 @@ int RedisModule_OnLoad(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) 
 	if (RedisModule_CreateCommand(ctx, "accept.delete",
 			ACCEPT_Delete_RedisCommand, "write deny-oom", 1, 1, 1) == REDISMODULE_ERR)
 		return REDISMODULE_ERR;
-
+	if (RedisModule_CreateCommand(ctx, "ttl.accept.insert",
+			TTL_ACCEPT_Insert_RedisCommand, "write deny-oom", 1, 1, 1) == REDISMODULE_ERR)
+			return REDISMODULE_ERR;
+	if (RedisModule_CreateCommand(ctx, "ttl.drop.insert",
+			TTL_DROP_Insert_RedisCommand, "write deny-oom", 1, 1, 1) == REDISMODULE_ERR)
+			return REDISMODULE_ERR;
 
 	return REDISMODULE_OK;
 }
