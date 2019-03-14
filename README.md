@@ -52,7 +52,7 @@ A     Alias for g$lshzxe, so that the "AKE" string means all the events.
 $ redis-cli config set notify-keyspace-events Ex
 ```
 
-In order to test the module you are developing, you can load the module using the following redis.conf configuration directive:
+You can load the module using the following redis.conf configuration directive:
 
 ```
 notify-keyspace-events Ex
