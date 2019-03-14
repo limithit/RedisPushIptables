@@ -97,8 +97,8 @@ int main(int argc, char **argv) {
 				reply->element[3]->str);
 		time_t t = time(NULL);
 		struct tm *loc_time = localtime(&t);
-		sprintf(msg, "pid=%d %02d:%02d:%02d iptables -D INPUT -s %s -j DROP\n",
-				getpid(), loc_time->tm_hour, loc_time->tm_min, loc_time->tm_sec,
+		sprintf(msg, "pid=%d %02d/%02d-%02d:%02d:%02d iptables -D INPUT -s %s -j DROP\n",
+				getpid(), loc_time->tm_mon+1, loc_time->tm_mday, loc_time->tm_hour, loc_time->tm_min, loc_time->tm_sec,
 				reply->element[3]->str);
 		write(logfd, msg, strlen(msg));
 		fd = execute_popen(&pid, insert_command);
