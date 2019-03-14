@@ -56,6 +56,7 @@ You can load the module using the following redis.conf configuration directive:
 
 ```
 notify-keyspace-events Ex
+#notify-keyspace-events ""  # Comment out this line
 ```
 Running ttl_iptables daemon with root user
 
