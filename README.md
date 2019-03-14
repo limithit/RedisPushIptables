@@ -29,7 +29,7 @@ MODULE unload iptables-input-filter
 ```
 
 
-## Dynamic deletion configuration
+## Dynamic delete configuration
 
 By default keyspace events notifications are disabled because while not very sensible the feature uses some CPU power. Notifications are enabled using the notify-keyspace-events of redis.conf or via the CONFIG SET. Setting the parameter to the empty string disables notifications. In order to enable the feature a non-empty string is used, composed of multiple characters, where every character has a special meaning according to the following table:
 
