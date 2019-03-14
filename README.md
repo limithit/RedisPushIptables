@@ -64,6 +64,11 @@ root@debian:~/RedisPushIptables# ./ttl_iptables
 ``` 
 
 Logs are viewed in /var/log/ttl_iptables.log
+```
+root@debian:~# redis-cli TTL.DROP.INSERT 192.168.18.5 60                                      #60 seconds
+root@debian:~/RedisPushIptables# tail -f /var/log/ttl_iptables.log 
+pid=5670 17:18:50 iptables -D INPUT -s 192.168.18.5 -j DROP
+```
 
 ### Core
 * [accept.insert](https://github.com/limithit/RedisPushIptables/blob/master/README.md) - Filter table INPUT ADD ACCEPT
@@ -80,7 +85,7 @@ Logs are viewed in /var/log/ttl_iptables.log
 (integer) 13
 127.0.0.1:6379>drop.insert 192.168.188.8
 (integer) 13
-127.0.0.1:6379> TTL.DROP.INSERT 192.168.1.6 600
+127.0.0.1:6379> TTL.DROP.INSERT 192.168.1.6 600 #600 seconds
 (integer) 11
 ```
 ```
