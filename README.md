@@ -48,7 +48,7 @@ A     Alias for g$lshzxe, so that the "AKE" string means all the events.
   At least K or E should be present in the string, otherwise no event will be delivered regardless of the rest of the string.For instance to enable just Key-space events for lists, the configuration parameter must be set to Kl, and so forth.The string KEA can be used to enable every possible event.
 
 ```
-$ redis-cli config set notify-keyspace-events Ex
+# redis-cli config set notify-keyspace-events Ex
 ```
 
 You can load the module using the following redis.conf configuration directive:
