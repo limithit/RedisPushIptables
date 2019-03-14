@@ -175,6 +175,12 @@ root@debian:~/bookscode# git clone https://github.com/andymccurdy/redis-py.git
 After downloading, don't rush to compile and install. First edit the redis-py/redis/client.py file and add the code as follows:
 
 ```
+       # COMMAND EXECUTION AND PROTOCOL PARSING
+      def execute_command(self, *args, **options):
+          "Execute a command and return a parsed response"
+           .....
+           .....
+        
       def drop_insert(self, name):
           """
           Return the value at key ``name``, or None if the key doesn't exist
@@ -199,7 +205,7 @@ After downloading, don't rush to compile and install. First edit the redis-py/re
           """
           return self.execute_command('accept.delete', name)
  
-      def ttl_drop_insert(self, name):
+      def ttl_drop_insert(self, name, blocktime):
           """
           Return the value at key ``name``, or None if the key doesn't exist
           """
