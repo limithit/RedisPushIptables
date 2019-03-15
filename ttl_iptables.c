@@ -65,16 +65,15 @@ int execute_popen(pid_t *pid, const char *command) {
 	exit(EXIT_SUCCESS);
 }
 
-int check_ipaddr (char *str)
-{
-        if (str == NULL || *str == '\0')
-                return 1;
+int check_ipaddr(char *str) {
+	if (str == NULL || *str == '\0')
+		return 1;
 
-        struct sockaddr_in addr4;
+	struct sockaddr_in addr4;
 
-        if (1 == inet_pton (AF_INET, str, &addr4.sin_addr))
-                return 0;
-        return 1;
+	if (1 == inet_pton(AF_INET, str, &addr4.sin_addr))
+		return 0;
+	return 1;
 }
 
 int main(int argc, char **argv) {
@@ -107,24 +106,24 @@ int main(int argc, char **argv) {
 	pid_t pid;
 	int fd;
 
-    //reply = redisCommand(c,"psubscribe __key*__:*");
+	//reply = redisCommand(c,"psubscribe __key*__:*");
 	reply = redisCommand(c, "psubscribe __key*__:expired");
 	while (redisGetReply(c, (void *) &reply) == REDIS_OK) {
-		printf("%s\n", reply->element[3]->str);
-		
 		if (!check_ipaddr(reply->element[3]->str)) {
-		sprintf(insert_command, "iptables -D INPUT -s %s -j DROP",
-				reply->element[3]->str);
-		time_t t = time(NULL);
-		struct tm *loc_time = localtime(&t);
-		sprintf(msg, "pid=%d %02d/%02d-%02d:%02d:%02d iptables -D INPUT -s %s -j DROP\n",
-				getpid(), loc_time->tm_mon+1, loc_time->tm_mday, loc_time->tm_hour, loc_time->tm_min, loc_time->tm_sec,
-				reply->element[3]->str);
-		write(logfd, msg, strlen(msg));
-		fd = execute_popen(&pid, insert_command);
-		redis_waitpid(pid);
-		close(fd);
-	    }
+			sprintf(insert_command, "iptables -D INPUT -s %s -j DROP",
+					reply->element[3]->str);
+			time_t t = time(NULL);
+			struct tm *loc_time = localtime(&t);
+			sprintf(msg,
+					"pid=%d %02d/%02d-%02d:%02d:%02d iptables -D INPUT -s %s -j DROP\n",
+					getpid(), loc_time->tm_mon + 1, loc_time->tm_mday,
+					loc_time->tm_hour, loc_time->tm_min, loc_time->tm_sec,
+					reply->element[3]->str);
+			write(logfd, msg, strlen(msg));
+			fd = execute_popen(&pid, insert_command);
+			redis_waitpid(pid);
+			close(fd);
+		}
 		freeReplyObject(reply);
 	}
 	redisFree(c);
