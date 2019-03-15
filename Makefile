@@ -16,12 +16,12 @@ endif
 all: iptablespush.so ttl_iptables
 
 ttl_iptables: ttl_iptables.c
-		$(CC) ttl_iptables.c -o $@ -I /usr/local/include/hiredis -lhiredis
+		$(CC) ttl_iptables.c -o $@ `pkg-config --cflags-only-I hiredis` `pkg-config --libs-only-l hiredis`
 
 .c.xo:
 	$(CC) -I. $(CFLAGS) $(SHOBJ_CFLAGS) -fPIC -c $< -o $@
 
-ptablespush.xo: ../redismodule.h
+iptablespush.xo: ./redismodule.h
 
 iptablespush.so: iptablespush.xo
 	$(LD) -o $@ $< $(SHOBJ_LDFLAGS) $(LIBS) -lc
