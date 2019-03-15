@@ -234,7 +234,11 @@ Type "help", "copyright", "credits" or "license" for more information.
 ### Bash
 ```
 #!/bin/bash
-
+set -x
+for ((i=1; i<=254; i++))
+ do
+redis-cli TTL.DROP.INSERT 192.168.17.$i 60 
+done  
 redis-cli TTL.DROP.INSERT 192.168.18.5 60 
 redis-cli DROP.INSERT 192.168.18.5 
 redis-cli DROP.DELETE 192.168.18.5 
