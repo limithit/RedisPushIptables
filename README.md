@@ -70,12 +70,12 @@ root@debian:~/RedisPushIptables# tail -f /var/log/ttl_iptables.log
 pid=5670 17:18:50 iptables -D INPUT -s 192.168.18.5 -j DROP
 ```
 
-### Core
-* [accept.insert](https://github.com/limithit/RedisPushIptables/blob/master/README.md) - Filter table INPUT ADD ACCEPT
-* [accept.delete](https://github.com/limithit/RedisPushIptables/blob/master/README.md) - Filter table INPUT DEL ACCEPT
-* [drop.insert](https://github.com/limithit/RedisPushIptables/blob/master/README.md) - Filter table INPUT ADD DROP
-* [drop.delete](https://github.com/limithit/RedisPushIptables/blob/master/README.md) - Filter table INPUT DEL DROP
-* [ttl.drop.insert](https://github.com/limithit/RedisPushIptables/blob/master/README.md) - Dynamic delete filter table INPUT ADD DROP
+## Core
+* [accept.insert](#Core) - Filter table INPUT ADD ACCEPT
+* [accept.delete](#Core) - Filter table INPUT DEL ACCEPT
+* [drop.insert](#Core) - Filter table INPUT ADD DROP
+* [drop.delete](#Core) - Filter table INPUT DEL DROP
+* [ttl.drop.insert](#Core) - Dynamic delete filter table INPUT ADD DROP
 ```
 127.0.0.1:6379>accept.insert 192.168.188.8
 (integer) 13
