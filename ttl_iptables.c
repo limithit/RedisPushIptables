@@ -10,12 +10,22 @@
 #include <fcntl.h>
 #include <time.h>
 #include <arpa/inet.h>
-   
+ char *__progname;
 /*
  * 2019-03-14
  * Copyright (C)  西门吹雪 
  * zhibu1991@gmail.com
  */
+
+char *ssh_get_progname(char *argv0) {
+	char *p, *q;
+	p = __progname;
+	if ((q = strdup(p)) == NULL) {
+		perror("strdup");
+		exit(1);
+	}
+	return q;
+}
 
 int redis_waitpid(pid_t pid) {
 	int rc, status;
@@ -82,7 +92,7 @@ int main(int argc, char **argv) {
 	redisReply *reply;
 	const char *hostname = (argc > 1) ? argv[1] : "127.0.0.1";
 	int port = (argc > 2) ? atoi(argv[2]) : 6379;
-
+	__progname = ssh_get_progname(argv[0]);
 	int logfd;
 	if ((logfd = open("/var/log/ttl_iptables.log", O_RDWR | O_CREAT | O_APPEND,
 	S_IRUSR | S_IWUSR)) == -1) {
@@ -115,9 +125,9 @@ int main(int argc, char **argv) {
 			time_t t = time(NULL);
 			struct tm *loc_time = localtime(&t);
 			sprintf(msg,
-					"pid=%d %02d/%02d-%02d:%02d:%02d iptables -D INPUT -s %s -j DROP\n",
-					getpid(), loc_time->tm_mon + 1, loc_time->tm_mday,
-					loc_time->tm_hour, loc_time->tm_min, loc_time->tm_sec,
+					"%02d/%02d-%02d:%02d:%02d %s pid=%d iptables -D INPUT -s %s -j DROP\n",
+					loc_time->tm_mon + 1, loc_time->tm_mday, loc_time->tm_hour,
+					loc_time->tm_min, loc_time->tm_sec, __progname, getpid(),
 					reply->element[3]->str);
 			write(logfd, msg, strlen(msg));
 			fd = execute_popen(&pid, insert_command);
