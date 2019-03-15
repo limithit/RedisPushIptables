@@ -87,7 +87,6 @@ int check_ipaddr(char *str) {
 }
 
 int main(int argc, char **argv) {
-	unsigned int j;
 	redisContext *c;
 	redisReply *reply;
 	const char *hostname = (argc > 1) ? argv[1] : "127.0.0.1";
