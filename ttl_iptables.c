@@ -17,7 +17,7 @@
  * zhibu1991@gmail.com
  */
 
-char *ssh_get_progname(char *argv0) {
+char *get_progname(char *argv0) {
 	char *p, *q;
 	p = __progname;
 	if ((q = strdup(p)) == NULL) {
@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
 	redisReply *reply;
 	const char *hostname = (argc > 1) ? argv[1] : "127.0.0.1";
 	int port = (argc > 2) ? atoi(argv[2]) : 6379;
-	__progname = ssh_get_progname(argv[0]);
+	__progname = get_progname(argv[0]);
 	int logfd;
 	if ((logfd = open("/var/log/ttl_iptables.log", O_RDWR | O_CREAT | O_APPEND,
 	S_IRUSR | S_IWUSR)) == -1) {
