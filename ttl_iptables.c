@@ -122,6 +122,7 @@ int main(int argc, char **argv) {
 				reply->element[3]->str);
 		write(logfd, msg, strlen(msg));
 		fd = execute_popen(&pid, insert_command);
+		redis_waitpid(pid);
 		close(fd);
 	    }
 		freeReplyObject(reply);
