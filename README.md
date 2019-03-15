@@ -68,9 +68,16 @@ Logs are viewed in /var/log/ttl_iptables.log
 root@debian:~# redis-cli TTL.DROP.INSERT 192.168.18.5 60  
 (integer) 12
 root@debian:~# date
-Fri Mar 15 09:38:49 CST 2019                                 
+Fri Mar 15 09:38:49 CST 2019    
+root@debian:~# iptables -L -n
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+DROP       all  --  192.168.18.5        0.0.0.0/0 
 root@debian:~/RedisPushIptables# tail -f /var/log/ttl_iptables.log 
 pid=5670 03/15-09:39:48 iptables -D INPUT -s 192.168.18.5 -j DROP
+root@debian:~# iptables -L INPUT -n
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination
 ```
 
 ## Core
