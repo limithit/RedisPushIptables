@@ -119,6 +119,7 @@ int DROP_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
 			RedisModule_StringPtrLen(argv[1], NULL));
 
 	fd = execute_popen(&pid, insert_command);
+	redis_waitpid(pid);
 	close(fd);
 
 	RedisModule_DeleteKey(key);
@@ -178,6 +179,7 @@ int ACCEPT_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 			RedisModule_StringPtrLen(argv[1], NULL));
 
 	fd = execute_popen(&pid, insert_command);
+	redis_waitpid(pid);
 	close(fd);
 
 	RedisModule_DeleteKey(key);
