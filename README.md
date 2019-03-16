@@ -138,6 +138,7 @@ ACCEPT       all  --  192.168.188.8        0.0.0.0/0
   #2: git clone  https://github.com/limithit/RedisPushIptables.git
    cd RedisPushIptables
    make 
+   make install
    ```
 ## HOWTOs
 In theory, except for the C language native support API call, the corresponding library before the other language API calls must be re-encapsulated because the third-party modules are not supported by other languages. Here only demonstrate the similarities of C and Python in other languages.
