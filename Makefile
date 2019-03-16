@@ -16,7 +16,7 @@ endif
 all: iptablespush.so ttl_iptables
 
 ttl_iptables: ttl_iptables.c
-		$(CC) ttl_iptables.c -o $@ `pkg-config --cflags-only-I hiredis` `pkg-config --libs-only-l hiredis`
+		$(CC) ttl_iptables.c -o $@ -I/usr/local/include/hiredis -lhiredis
 
 .c.xo:
 	$(CC) -I. $(CFLAGS) $(SHOBJ_CFLAGS) -fPIC -c $< -o $@
