@@ -28,3 +28,7 @@ iptablespush.so: iptablespush.xo
 
 clean:
 	rm -rf *.xo *.so ttl_iptables
+
+install:
+	 cp ttl_iptables /usr/sbin/
+	 cp init.d/ttl_iptables /etc/init.d
