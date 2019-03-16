@@ -14,7 +14,7 @@ content
 
 ## Requirements
 
-1. Redis2.8+
+1. Redis4.0+
 2. iptables
 3. gcc
 4. make
