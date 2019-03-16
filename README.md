@@ -17,6 +17,7 @@ content
 1. Redis2.8+
 2. iptables
 3. gcc
+4. make
 
 ## Features
 
