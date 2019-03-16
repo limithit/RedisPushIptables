@@ -32,3 +32,5 @@ clean:
 install:
 	 cp ttl_iptables /usr/sbin/
 	 cp init.d/ttl_iptables /etc/init.d
+	 test -d '/etc/redis/modules' || mkdir -p '/etc/redis/modules'
+	 cp iptablespush.so /etc/redis/modules

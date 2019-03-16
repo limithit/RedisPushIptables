@@ -28,13 +28,13 @@ RedisPushIptables is used to update firewall rules to reject the IP addresses fo
 In order to test the module you are developing, you can load the module using the following redis.conf configuration directive:
 
 ```
-loadmodule /path/to/iptablespush.so
+loadmodule /etc/redis/modules/iptablespush.so
 ```
 
 It is also possible to load a module at runtime using the following command:
 
 ```
-MODULE LOAD /path/to/iptablespush.so
+MODULE LOAD /etc/redis/modules/iptablespush.so
 ```
 
 In order to list all loaded modules, use:
