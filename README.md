@@ -3,6 +3,16 @@
 This README is just a fast quick start document. 
 ` Redis must be run by root users, because iptables needs to submit the kernel.`
 
+RedisPushIptables
+=================
+* [Requirements](#Needed requirements for RedisPushIptables)
+* [Features](#List of current and planned features)
+* [Configuration](#Configuration related to external software)
+* [HOWTOs](#Client usage example)
+* [Installation](#Installation)
+
+## Configuration related to external software
+
 In order to test the module you are developing, you can load the module using the following redis.conf configuration directive:
 
 ```
