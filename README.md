@@ -3,6 +3,26 @@
 This README is just a fast quick start document. 
 ` Redis must be run by root users, because iptables needs to submit the kernel.`
 
+content
+================
+* [Requirements](#requirements)
+* [Features](#features)
+* [Configuration](#Configuration)
+* [Command](#Command)
+* [HOWTOs](#HOWTOs)
+* [Installation](#Installation)
+
+## Requirements
+
+1. Redis2.8+
+2. iptables
+
+## Features
+
+RedisPushIptables is used to update firewall rules to reject the IP addresses for a specified amount of time or forever reject. fail2ban relies on regular expressions. Once the application's log format has changed (the reason for the change may be due to version iteration), the filter needs to be reconfigured. RedisPushIptables does not have these concerns.
+
+## Configuration
+
 In order to test the module you are developing, you can load the module using the following redis.conf configuration directive:
 
 ```
@@ -29,7 +49,7 @@ MODULE unload iptables-input-filter
 ```
 
 
-## Dynamic delete configuration
+### Dynamic delete configuration
 
 By default keyspace events notifications are disabled because while not very sensible the feature uses some CPU power. Notifications are enabled using the notify-keyspace-events of redis.conf or via the CONFIG SET. Setting the parameter to the empty string disables notifications. In order to enable the feature a non-empty string is used, composed of multiple characters, where every character has a special meaning according to the following table:
 
@@ -80,7 +100,7 @@ Chain INPUT (policy ACCEPT)
 target     prot opt source               destination
 ```
 
-## Core
+## Command
 * [accept.insert](#Core) - Filter table INPUT ADD ACCEPT
 * [accept.delete](#Core) - Filter table INPUT DEL ACCEPT
 * [drop.insert](#Core) - Filter table INPUT ADD DROP
@@ -117,8 +137,8 @@ ACCEPT       all  --  192.168.188.8        0.0.0.0/0
    cd RedisPushIptables
    make 
    ```
-## Client usage example
-In theory, except for the C language native support API call, the corresponding library before the other language API calls must be re-encapsulated because the third-party modules are not supported by other languages. Here only demonstrate the similarities of c and python in other languages.
+## HOWTOs
+In theory, except for the C language native support API call, the corresponding library before the other language API calls must be re-encapsulated because the third-party modules are not supported by other languages. Here only demonstrate the similarities of C and Python in other languages.
 
 ### C
 
