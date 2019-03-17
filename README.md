@@ -21,7 +21,7 @@ content
 
 ## Features
 
-RedisPushIptables is used to update firewall rules to reject the IP addresses for a specified amount of time or forever reject. however fail2ban relies on regular expressions. Once the application's log format has changed (the reason for the change may be due to version iteration), the filter needs to be reconfigured. RedisPushIptables does not have these concerns.
+RedisPushIptables is used to update firewall rules to reject the IP addresses for a specified amount of time or forever reject. however fail2ban relies on regular expressions. Once the application's log format has changed (the reason for the change may be due to version iteration), the filter needs to be reconfigured. RedisPushIptables does not have these concerns,it's used in the form of an API.
 
 ## Configuration
 
