@@ -82,7 +82,7 @@ notify-keyspace-events Ex
 Running ttl_iptables daemon with root user
 
 ```
-root@debian:~/RedisPushIptables# ./ttl_iptables
+root@debian:~/RedisPushIptables# /etc/init.d/ttl_iptables start
 ``` 
 
 Logs are viewed in /var/log/ttl_iptables.log
