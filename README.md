@@ -279,6 +279,45 @@ redis-cli DROP.DELETE 192.168.18.5
 redis-cli ACCEPT.DELETE 192.168.18.5
 redis-cli ACCEPT.INSERT 192.168.18.5
 ```
+### Lua
+```
+git clone https://github.com/nrk/redis-lua.git
+First edit the redis-lua/src/redis.lua file and add the code as follows:
+redis.commands = {
+    .....
+    ttl              = command('TTL'),
+    drop_insert      = command('drop.insert'),
+    drop_delete      = command('drop.delete'),
+    accept_insert    = command('accept.insert'),
+    accept_delete    = command('accept.delete'),
+    ttl_drop_insert  = command('ttl.drop.insert'),
+    pttl             = command('PTTL'),         -- >= 2.6
+     .....
+```
+
+simple.lua  #Luasocket don't forget to install
+
+```
+package.path = "../src/?.lua;src/?.lua;" .. package.path
+pcall(require, "luarocks.require")
+
+local redis = require 'redis'
+
+local params = {
+    host = '127.0.0.1',
+    port = 6379,
+}
+
+local client = redis.connect(params)
+client:select(0) -- for testing purposes
+
+client:drop_insert('192.168.1.1')
+client:drop_delete('192.168.1.1')
+client:ttl_drop_insert('192.168.1.2', '60')
+local value = client:get('192.168.1.2')
+
+print(value)
+```
 
 Lauchpad Pump Demo
 =========================
