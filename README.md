@@ -143,7 +143,7 @@ ACCEPT       all  --  192.168.188.8        0.0.0.0/0
     make install
    ```
 ## HOWTOs
-In theory, except for the C language native support API call, the corresponding library before the other language API calls must be re-encapsulated because the third-party modules are not supported by other languages. Here only demonstrate the similarities of C ,Python, Bash, Lua in other languages.
+In theory, except for the C language native support API call, the corresponding library before the other language API calls must be re-encapsulated because the third-party modules are not supported by other languages. Only C, Python, Bash, Lua are shown here, and the principles of other languages are the same.
 
 ### C
 
