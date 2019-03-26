@@ -143,7 +143,7 @@ ACCEPT       all  --  192.168.188.8        0.0.0.0/0
     make install
    ```
 ## HOWTOs
-In theory, except for the C language native support API call, the corresponding library before the other language API calls must be re-encapsulated because the third-party modules are not supported by other languages. Here only demonstrate the similarities of C and Python in other languages.
+In theory, except for the C language native support API call, the corresponding library before the other language API calls must be re-encapsulated because the third-party modules are not supported by other languages. Here only demonstrate the similarities of C ,Python, Bash, Lua in other languages.
 
 ### C
 
@@ -282,7 +282,9 @@ redis-cli ACCEPT.INSERT 192.168.18.5
 ### Lua
 ```
 git clone https://github.com/nrk/redis-lua.git
+```
 First edit the redis-lua/src/redis.lua file and add the code as follows:
+```
 redis.commands = {
     .....
     ttl              = command('TTL'),
@@ -295,7 +297,7 @@ redis.commands = {
      .....
 ```
 
-simple.lua  #Luasocket don't forget to install
+simple.lua           `Luasocket don't forget to install`
 
 ```
 package.path = "../src/?.lua;src/?.lua;" .. package.path
