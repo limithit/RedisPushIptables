@@ -54,7 +54,7 @@ MODULE unload iptables-input-filter
 ### Dynamic delete configuration
 
 By default keyspace events notifications are disabled because while not very sensible the feature uses some CPU power. Notifications are enabled using the notify-keyspace-events of redis.conf or via the CONFIG SET. Setting the parameter to the empty string disables notifications. In order to enable the feature a non-empty string is used, composed of multiple characters, where every character has a special meaning according to the following table:
-
+```
 K     Keyspace events, published with __keyspace@<db>__ prefix.
 E     Keyevent events, published with __keyevent@<db>__ prefix.
 g     Generic commands (non-type specific) like DEL, EXPIRE, RENAME, ...
@@ -66,7 +66,7 @@ z     Sorted set commands
 x     Expired events (events generated every time a key expires)
 e     Evicted events (events generated when a key is evicted for maxmemory)
 A     Alias for g$lshzxe, so that the "AKE" string means all the events.
-  
+  ```
   At least K or E should be present in the string, otherwise no event will be delivered regardless of the rest of the string.For instance to enable just Key-space events for lists, the configuration parameter must be set to Kl, and so forth.The string KEA can be used to enable every possible event.
 
 ```
