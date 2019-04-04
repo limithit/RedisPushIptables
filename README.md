@@ -153,7 +153,7 @@ root@debian:~/bookscode/redis-5.0.3/deps/hiredis#make install
 ```
 cat examples.c
 
-```
+``` C
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -203,12 +203,12 @@ gcc example.c -I/usr/local/include/hiredis –lhiredis
 
 ### Python
 
-```
+``` 
 root@debian:~/bookscode# git clone https://github.com/andymccurdy/redis-py.git
 ```
 After downloading, don't rush to compile and install. First edit the redis-py/redis/client.py file and add the code as follows:
 
-```
+``` Python
        # COMMAND EXECUTION AND PROTOCOL PARSING
       def execute_command(self, *args, **options):
           "Execute a command and return a parsed response"
@@ -267,7 +267,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>>
 ```
 ### Bash
-```
+``` Bash
 #!/bin/bash
 set -x
 for ((i=1; i<=254; i++))
@@ -284,7 +284,7 @@ redis-cli ACCEPT.INSERT 192.168.18.5
 git clone https://github.com/nrk/redis-lua.git
 ```
 First edit the redis-lua/src/redis.lua file and add the code as follows:
-```
+``` Lua
 redis.commands = {
     .....
     ttl              = command('TTL'),
@@ -299,7 +299,7 @@ redis.commands = {
 
 simple.lua           `Luasocket don't forget to install`
 
-```
+``` Lua
 package.path = "../src/?.lua;src/?.lua;" .. package.path
 pcall(require, "luarocks.require")
 
