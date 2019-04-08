@@ -84,6 +84,7 @@ int DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
 			RedisModule_StringPtrLen(argv[1], NULL));
 #ifdef WITH_IPSET
 	fd = execute_popen(&pid, insert_command);
+	redis_waitpid(pid);
 	close(fd);
 #else
 	fd = execute_popen(&pid, check_command);
@@ -156,6 +157,7 @@ int ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 #ifdef WITH_IPSET
 	fd = execute_popen(&pid, insert_command);
 	redis_waitpid(pid);
+	close(fd);
 #else
 	fd = execute_popen(&pid, check_command);
 	redis_waitpid(pid);
@@ -231,6 +233,7 @@ int TTL_DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, 
 #ifdef WITH_IPSET
 	fd = execute_popen(&pid, insert_command);
 	redis_waitpid(pid);
+	close(fd);
 #else
 	fd = execute_popen(&pid, check_command);
 	redis_waitpid(pid);
