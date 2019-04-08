@@ -146,7 +146,7 @@ If you need to enable ipset, you must configure the following settings
 ```
 #ipset create block_ip hash:ip timeout 60 hashsize 4096 maxelem 10000000
 #iptables -I INPUT -m set --match-set block_ip src -j DROP
-#ipset create allow_ip hash:ip timeout 60 hashsize 4096 maxelem 10000000
+#ipset create allow_ip hash:ip hashsize 4096 maxelem 10000000
 #iptables -I INPUT -m set --match-set allow_ip src -j ACCEPT
 ```
 The `timeout` parameter and  `ttl.drop.insert` parameter has the same effect. If the `timeout` parameter is configured, ipset is used to implement periodic deletion. If the `timeout` parameter is not configured, it is periodic deletion used `ttl.drop.insert`.
