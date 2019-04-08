@@ -142,7 +142,7 @@ ACCEPT       all  --  192.168.188.8        0.0.0.0/0
     make OR make CFLAGS=-DWITH_IPSET 
     make install
    ```
-### IPSET
+### IPSET configuration
 ```
 #ipset create block_ip hash:ip timeout 60 hashsize 4096 maxelem 10000000
 #iptables -I INPUT -m set --match-set block_ip src -j DROP
