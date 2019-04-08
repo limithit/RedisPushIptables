@@ -149,7 +149,7 @@ If you need to enable ipset, you must configure the following settings
 #ipset create allow_ip hash:ip timeout 60 hashsize 4096 maxelem 10000000
 #iptables -I INPUT -m set --match-set allow_ip src -j ACCEPT
 ```
-The parameter `timeout` has the same effect as parameter `ttl.drop.insert`. If `timeout` is configured, ipset is used to implement periodic deletion. If the `timeout` is not configured, it is periodically removed using `ttl.drop.insert`.
+The parameter `timeout` has the same effect as parameter `ttl.drop.insert`. If `timeout` is configured, ipset is used to implement periodic deletion. If the `timeout` is not configured, it is periodic deletion used `ttl.drop.insert`.
 
 ## HOWTOs
 In theory, except for the C language native support API call, the corresponding library before the other language API calls must be re-encapsulated because the third-party modules are not supported by other languages. Only C, Python, Bash, Lua are shown here, and the principles of other languages are the same.
