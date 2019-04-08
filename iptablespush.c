@@ -68,13 +68,14 @@ int DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
 	REDISMODULE_READ | REDISMODULE_WRITE);
 	pid_t pid;
 	int fd;
-	char tmp_buf[4096];
 
-	static char check_command[256], insert_command[256];
 #ifdef WITH_IPSET
+	static char insert_command[256];
 	sprintf(insert_command, "ipset add block_ip %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #else
+	static char check_command[256], insert_command[256];
+	char tmp_buf[4096];
 	sprintf(check_command, "iptables -C INPUT -s %s -j DROP",
 			RedisModule_StringPtrLen(argv[1], NULL));
 	sprintf(insert_command, "iptables -I INPUT -s %s -j DROP",
@@ -140,13 +141,14 @@ int ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 	REDISMODULE_READ | REDISMODULE_WRITE);
 	pid_t pid;
 	int fd;
-	char tmp_buf[4096];
 
-	static char check_command[256], insert_command[256];
 #ifdef WITH_IPSET
+	static char insert_command[256];
 	sprintf(insert_command, "ipset add allow_ip %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #else
+	char tmp_buf[4096];
+	static char check_command[256], insert_command[256];
 	sprintf(check_command, "iptables -C INPUT -s %s -j ACCEPT",
 			RedisModule_StringPtrLen(argv[1], NULL));
 	sprintf(insert_command, "iptables -I INPUT -s %s -j ACCEPT",
@@ -216,13 +218,14 @@ int TTL_DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, 
 	}
 	pid_t pid;
 	int fd;
-	char tmp_buf[4096];
 
-	static char check_command[256], insert_command[256];
 #ifdef WITH_IPSET
+	static char insert_command[256];
 	sprintf(insert_command, "ipset add block_ip %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #else
+	static char check_command[256], insert_command[256];
+	char tmp_buf[4096];
 	sprintf(check_command, "iptables -C INPUT -s %s -j DROP",
 			RedisModule_StringPtrLen(argv[1], NULL));
 	sprintf(insert_command, "iptables -I INPUT -s %s -j DROP",
