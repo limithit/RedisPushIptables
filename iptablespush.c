@@ -60,8 +60,7 @@ int execute_popen(pid_t *pid, const char *command) {
 	exit(EXIT_SUCCESS);
 }
 
-int DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv,
-		int argc) {
+int DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv,	int argc) {
 	if (argc != 2)
 		return RedisModule_WrongArity(ctx);
 
@@ -103,8 +102,7 @@ int DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv,
 	return REDISMODULE_OK;
 }
 
-int DROP_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv,
-		int argc) {
+int DROP_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv,	int argc) {
 	if (argc != 2)
 		return RedisModule_WrongArity(ctx);
 
@@ -133,8 +131,7 @@ int DROP_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv,
 	RedisModule_ReplyWithLongLong(ctx, newlen);
 	return REDISMODULE_OK;
 }
-int ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv,
-		int argc) {
+int ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) {
 	if (argc != 2)
 		return RedisModule_WrongArity(ctx);
 
@@ -176,8 +173,7 @@ int ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv,
 	RedisModule_ReplyWithLongLong(ctx, newlen);
 	return REDISMODULE_OK;
 }
-int ACCEPT_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv,
-		int argc) {
+int ACCEPT_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) {
 	if (argc != 2)
 		return RedisModule_WrongArity(ctx);
 
@@ -206,8 +202,7 @@ int ACCEPT_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv,
 	return REDISMODULE_OK;
 }
 
-int TTL_DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv,
-		int argc) {
+int TTL_DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) {
 	if (argc != 3)
 		return RedisModule_WrongArity(ctx);
 	RedisModuleKey *key = RedisModule_OpenKey(ctx, argv[1],
@@ -273,17 +268,14 @@ int RedisModule_OnLoad(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) 
 	if (RedisModule_CreateCommand(ctx, "drop.delete", DROP_Delete_RedisCommand,
 			"write deny-oom", 1, 1, 1) == REDISMODULE_ERR)
 		return REDISMODULE_ERR;
-	if (RedisModule_CreateCommand(ctx, "accept.insert",
-			ACCEPT_Insert_RedisCommand, "write deny-oom", 1, 1,
-			1) == REDISMODULE_ERR)
+	if (RedisModule_CreateCommand(ctx, "accept.insert", ACCEPT_Insert_RedisCommand,
+			"write deny-oom", 1, 1,	1) == REDISMODULE_ERR)
 		return REDISMODULE_ERR;
-	if (RedisModule_CreateCommand(ctx, "accept.delete",
-			ACCEPT_Delete_RedisCommand, "write deny-oom", 1, 1,
-			1) == REDISMODULE_ERR)
+	if (RedisModule_CreateCommand(ctx, "accept.delete",	ACCEPT_Delete_RedisCommand,
+			"write deny-oom", 1, 1,	1) == REDISMODULE_ERR)
 		return REDISMODULE_ERR;
-	if (RedisModule_CreateCommand(ctx, "ttl.drop.insert",
-			TTL_DROP_Insert_RedisCommand, "write deny-oom", 1, 1,
-			1) == REDISMODULE_ERR)
+	if (RedisModule_CreateCommand(ctx, "ttl.drop.insert", TTL_DROP_Insert_RedisCommand,
+			"write deny-oom", 1, 1, 1) == REDISMODULE_ERR)
 		return REDISMODULE_ERR;
 
 	return REDISMODULE_OK;
