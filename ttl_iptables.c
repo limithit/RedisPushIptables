@@ -227,7 +227,7 @@ int main(int argc, char **argv) {
 	while (redisGetReply(c, (void *) &reply) == REDIS_OK) {
 		if (!check_ipaddr(reply->element[3]->str)) {
 #ifdef WITH_IPSET
-			sprintf(insert_command, "ipset add block_ip %s",
+			sprintf(insert_command, "ipset del block_ip %s",
 					reply->element[3]->str);
 #else
 			sprintf(insert_command, "iptables -D INPUT -s %s -j DROP",
