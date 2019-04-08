@@ -180,7 +180,7 @@ static void acquire_daemonlock(int closeflag) {
 }
 int main(int argc, char **argv) {
 	struct sigaction sact;
-	bzero((char * )&sact, sizeof sact);
+	bzero((char *) &sact, sizeof sact);
 	sigemptyset(&sact.sa_mask);
 	sact.sa_flags = 0;
 	sact.sa_flags |= SA_RESTART;
@@ -226,15 +226,28 @@ int main(int argc, char **argv) {
 	reply = redisCommand(c, "psubscribe __key*__:expired");
 	while (redisGetReply(c, (void *) &reply) == REDIS_OK) {
 		if (!check_ipaddr(reply->element[3]->str)) {
+#ifdef WITH_IPSET
+			sprintf(insert_command, "ipset del block_ip %s",
+					reply->element[3]->str);
+#else
 			sprintf(insert_command, "iptables -D INPUT -s %s -j DROP",
 					reply->element[3]->str);
+#endif
 			time_t t = time(NULL);
 			struct tm *loc_time = localtime(&t);
+#ifdef WITH_IPSET
+			sprintf(msg,
+					"%02d/%02d-%02d:%02d:%02d %s pid=%d ipset del block_ip %s\n",
+					loc_time->tm_mon + 1, loc_time->tm_mday, loc_time->tm_hour,
+					loc_time->tm_min, loc_time->tm_sec, __progname, getpid(),
+					reply->element[3]->str);
+#else
 			sprintf(msg,
 					"%02d/%02d-%02d:%02d:%02d %s pid=%d iptables -D INPUT -s %s -j DROP\n",
 					loc_time->tm_mon + 1, loc_time->tm_mday, loc_time->tm_hour,
 					loc_time->tm_min, loc_time->tm_sec, __progname, getpid(),
 					reply->element[3]->str);
+#endif
 			write(logfd, msg, strlen(msg));
 			fd = execute_popen(&pid, insert_command);
 			redis_waitpid(pid);

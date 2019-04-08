@@ -139,9 +139,18 @@ ACCEPT       all  --  192.168.188.8        0.0.0.0/0
     
   #2: git clone  https://github.com/limithit/RedisPushIptables.git
     cd RedisPushIptables
-    make 
+    make                                    #OR make CFLAGS=-DWITH_IPSET 
     make install
    ```
+If you need to enable ipset, you must configure the following settings
+```
+#ipset create block_ip hash:ip timeout 60 hashsize 4096 maxelem 10000000
+#iptables -I INPUT -m set --match-set block_ip src -j DROP
+#ipset create allow_ip hash:ip timeout 60 hashsize 4096 maxelem 10000000
+#iptables -I INPUT -m set --match-set allow_ip src -j ACCEPT
+```
+The parameter `timeout` has the same effect as `ttl.drop.insert`. If `timeout` is configured, ipset is used to implement periodic deletion. If the `timeout` is not configured, it is periodically removed using `ttl.drop.insert`.
+
 ## HOWTOs
 In theory, except for the C language native support API call, the corresponding library before the other language API calls must be re-encapsulated because the third-party modules are not supported by other languages. Only C, Python, Bash, Lua are shown here, and the principles of other languages are the same.
 
