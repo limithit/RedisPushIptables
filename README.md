@@ -139,7 +139,7 @@ ACCEPT       all  --  192.168.188.8        0.0.0.0/0
     
   #2: git clone  https://github.com/limithit/RedisPushIptables.git
     cd RedisPushIptables
-    make OR make CFLAGS=-DWITH_IPSET 
+    make                                    #OR make CFLAGS=-DWITH_IPSET 
     make install
    ```
 If you need to enable ipset, you must configure the following settings
