@@ -153,6 +153,17 @@ If you need to enable ipset, you must configure the following settings
 The `timeout` parameter and  `ttl.drop.insert` parameter has the same effect. If the `timeout` parameter is configured, ipset is used to implement periodic deletion. If the `timeout` parameter is not configured, it is periodic deletion used `ttl.drop.insert`.
 
 #### Installing Packages on BSD
+```
+  #1: Compile hiredis
+    cd redis-4.0**version**/deps/hiredis
+    make 
+    make install 
+    
+  #2: git clone  https://github.com/limithit/RedisPushIptables.git
+    cd RedisPushIptables
+    make CFLAGS=-DBSD        
+    make install
+ ```
 
 First edit the /etc/pf.conf file and add the code as follows:
 ```
@@ -167,7 +178,6 @@ pass in proto udp from <allow_ip> to any
 touch /etc/pf.block_ip.conf
 touch /etc/pf.allow_ip.conf
 pfctl -F all -f /etc/pf.conf 
-pfctl -t block_ip -T add 192.168.18.22
 ```
 ## HOWTOs
 In theory, except for the C language native support API call, the corresponding library before the other language API calls must be re-encapsulated because the third-party modules are not supported by other languages. Only C, Python, Bash, Lua are shown here, and the principles of other languages are the same.
