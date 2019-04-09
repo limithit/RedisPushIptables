@@ -174,6 +174,7 @@ block in log proto udp from <block_ip> to any
 pass in proto tcp from <allow_ip> to any
 pass in proto udp from <allow_ip> to any
 ```
+then 
 ```
 touch /etc/pf.block_ip.conf
 touch /etc/pf.allow_ip.conf
