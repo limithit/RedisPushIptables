@@ -152,7 +152,7 @@ If you need to enable ipset, you must configure the following settings
 ```
 The `timeout` parameter and  `ttl.drop.insert` parameter has the same effect. If the `timeout` parameter is configured, ipset is used to implement periodic deletion. If the `timeout` parameter is not configured, it is periodic deletion used `ttl.drop.insert`.
 
-#### Installing Packages on BSD or MacOS
+#### Installing Packages on BSD and MacOS
 ```
   #1: Compile hiredis
     cd redis-4.0**version**/deps/hiredis
@@ -180,6 +180,8 @@ touch /etc/pf.allow_ip.conf
 pfctl -F all -f /etc/pf.conf 
 pfctl -e
 ```
+BSD system does not provide a startup script
+
 ## HOWTOs
 In theory, except for the C language native support API call, the corresponding library before the other language API calls must be re-encapsulated because the third-party modules are not supported by other languages. Only C, Python, Bash, Lua are shown here, and the principles of other languages are the same.
 
