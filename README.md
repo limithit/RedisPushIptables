@@ -128,6 +128,7 @@ DROP       all  --  192.168.188.8        0.0.0.0/0
 ACCEPT       all  --  192.168.188.8        0.0.0.0/0 
 ```
 ## Installation
+#### Installing Packages on Linux
 
 ```
   #1: Compile hiredis
@@ -150,6 +151,36 @@ If you need to enable ipset, you must configure the following settings
 #iptables -I INPUT -m set --match-set allow_ip src -j ACCEPT
 ```
 The `timeout` parameter and  `ttl.drop.insert` parameter has the same effect. If the `timeout` parameter is configured, ipset is used to implement periodic deletion. If the `timeout` parameter is not configured, it is periodic deletion used `ttl.drop.insert`.
+
+#### Installing Packages on BSD and MacOS
+```
+  #1: Compile hiredis
+    cd redis-4.0**version**/deps/hiredis
+    make 
+    make install 
+    
+  #2: git clone  https://github.com/limithit/RedisPushIptables.git
+    cd RedisPushIptables
+    make CFLAGS=-DBSD        
+    make install
+ ```
+
+First edit the /etc/pf.conf file and add the code as follows:
+```
+table <block_ip> persist file "/etc/pf.block_ip.conf"
+table <allow_ip> persist file "/etc/pf.allow_ip.conf"
+block in log proto tcp from <block_ip> to any
+block in log proto udp from <block_ip> to any
+pass in proto tcp from <allow_ip> to any
+pass in proto udp from <allow_ip> to any
+```
+```
+touch /etc/pf.block_ip.conf
+touch /etc/pf.allow_ip.conf
+pfctl -F all -f /etc/pf.conf 
+pfctl -e
+```
+BSD system does not provide a startup script
 
 ## HOWTOs
 In theory, except for the C language native support API call, the corresponding library before the other language API calls must be re-encapsulated because the third-party modules are not supported by other languages. Only C, Python, Bash, Lua are shown here, and the principles of other languages are the same.

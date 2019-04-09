@@ -197,7 +197,11 @@ int main(int argc, char **argv) {
 	redisReply *reply;
 	const char *hostname = (argc > 1) ? argv[1] : "127.0.0.1";
 	int port = (argc > 2) ? atoi(argv[2]) : 6379;
+#ifdef BSD
+	__progname = argv[0];
+#else
 	__progname = get_progname(argv[0]);
+#endif
 	int logfd;
 	if ((logfd = open("/var/log/ttl_iptables.log", O_RDWR | O_CREAT | O_APPEND,
 	S_IRUSR | S_IWUSR)) == -1) {
@@ -215,7 +219,21 @@ int main(int argc, char **argv) {
 		}
 		exit(1);
 	}
-	daemon(0, 0);
+#ifdef BSD
+        pid_t pidt = fork();
+	
+        if (pidt != 0) {
+                exit(0);
+        }
+
+        setsid();
+        chdir("/");
+     close(0); /* close stdin */
+     close(1); /* close stdout */
+     close(2); /* close stderr */
+#else
+        daemon(0, 0);
+#endif
 	acquire_daemonlock(0);
 	static char insert_command[256];
 	static char msg[1024];
@@ -229,6 +247,9 @@ int main(int argc, char **argv) {
 #ifdef WITH_IPSET
 			sprintf(insert_command, "ipset del block_ip %s",
 					reply->element[3]->str);
+#elif BSD
+			sprintf(insert_command, "pfctl -t block_ip -T del %s",
+					reply->element[3]->str);
 #else
 			sprintf(insert_command, "iptables -D INPUT -s %s -j DROP",
 					reply->element[3]->str);
@@ -238,6 +259,12 @@ int main(int argc, char **argv) {
 #ifdef WITH_IPSET
 			sprintf(msg,
 					"%04d/%02d/%02d %02d:%02d:%02d %s pid=%d ipset del block_ip %s\n",
+					loc_time->tm_year + 1900, loc_time->tm_mon + 1, loc_time->tm_mday, loc_time->tm_hour,
+					loc_time->tm_min, loc_time->tm_sec, __progname, getpid(),
+					reply->element[3]->str);
+#elif BSD
+			sprintf(msg,
+					"%04d/%02d/%02d %02d:%02d:%02d %s pid=%d pfctl -t block_ip -T del %s\n",
 					loc_time->tm_year + 1900, loc_time->tm_mon + 1, loc_time->tm_mday, loc_time->tm_hour,
 					loc_time->tm_min, loc_time->tm_sec, __progname, getpid(),
 					reply->element[3]->str);

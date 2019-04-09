@@ -73,6 +73,10 @@ int DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
 	static char insert_command[256];
 	sprintf(insert_command, "ipset add block_ip %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
+#elif BSD
+	static char insert_command[256];
+	sprintf(insert_command, " pfctl -t block_ip -T add %s",
+			RedisModule_StringPtrLen(argv[1], NULL));
 #else
 	static char check_command[256], insert_command[256];
 	char tmp_buf[4096];
@@ -84,6 +88,10 @@ int DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
 	printf("%s || %s\n", RedisModule_StringPtrLen(argv[0], NULL),
 			RedisModule_StringPtrLen(argv[1], NULL));
 #ifdef WITH_IPSET
+	fd = execute_popen(&pid, insert_command);
+	redis_waitpid(pid);
+	close(fd);
+#elif BSD
 	fd = execute_popen(&pid, insert_command);
 	redis_waitpid(pid);
 	close(fd);
@@ -116,6 +124,9 @@ int DROP_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
 #ifdef WITH_IPSET
 	sprintf(insert_command, "ipset del block_ip %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
+#elif BSD
+	sprintf(insert_command, " pfctl -t block_ip -T del %s",
+			RedisModule_StringPtrLen(argv[1], NULL));
 #else
 	sprintf(insert_command, "iptables -D INPUT -s %s -j DROP",
 			RedisModule_StringPtrLen(argv[1], NULL));
@@ -146,6 +157,10 @@ int ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 	static char insert_command[256];
 	sprintf(insert_command, "ipset add allow_ip %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
+#elif BSD
+	static char insert_command[256];
+	sprintf(insert_command, " pfctl -t allow_ip -T add %s",
+			RedisModule_StringPtrLen(argv[1], NULL));
 #else
 	char tmp_buf[4096];
 	static char check_command[256], insert_command[256];
@@ -157,6 +172,10 @@ int ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 	printf("%s || %s\n", RedisModule_StringPtrLen(argv[0], NULL),
 			RedisModule_StringPtrLen(argv[1], NULL));
 #ifdef WITH_IPSET
+	fd = execute_popen(&pid, insert_command);
+	redis_waitpid(pid);
+	close(fd);
+#elif BSD
 	fd = execute_popen(&pid, insert_command);
 	redis_waitpid(pid);
 	close(fd);
@@ -188,6 +207,9 @@ int ACCEPT_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 	static char insert_command[256];
 #ifdef WITH_IPSET
 	sprintf(insert_command, "ipset del allow_ip %s",
+			RedisModule_StringPtrLen(argv[1], NULL));
+#elif BSD
+	sprintf(insert_command, " pfctl -t allow_ip -T del %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #else
 	sprintf(insert_command, "iptables -D INPUT -s %s -j ACCEPT",
@@ -223,6 +245,10 @@ int TTL_DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, 
 	static char insert_command[256];
 	sprintf(insert_command, "ipset add block_ip %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
+#elif BSD
+	static char insert_command[256];
+	sprintf(insert_command, " pfctl -t block_ip -T add %s",
+			RedisModule_StringPtrLen(argv[1], NULL));
 #else
 	static char check_command[256], insert_command[256];
 	char tmp_buf[4096];
@@ -234,6 +260,10 @@ int TTL_DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, 
 	printf("%s || %s\n", RedisModule_StringPtrLen(argv[0], NULL),
 			RedisModule_StringPtrLen(argv[1], NULL));
 #ifdef WITH_IPSET
+	fd = execute_popen(&pid, insert_command);
+	redis_waitpid(pid);
+	close(fd);
+#elif BSD
 	fd = execute_popen(&pid, insert_command);
 	redis_waitpid(pid);
 	close(fd);
