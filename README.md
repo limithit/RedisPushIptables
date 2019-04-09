@@ -178,6 +178,7 @@ pass in proto udp from <allow_ip> to any
 touch /etc/pf.block_ip.conf
 touch /etc/pf.allow_ip.conf
 pfctl -F all -f /etc/pf.conf 
+pfctl -e
 ```
 ## HOWTOs
 In theory, except for the C language native support API call, the corresponding library before the other language API calls must be re-encapsulated because the third-party modules are not supported by other languages. Only C, Python, Bash, Lua are shown here, and the principles of other languages are the same.
