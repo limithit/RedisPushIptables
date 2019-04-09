@@ -237,13 +237,13 @@ int main(int argc, char **argv) {
 			struct tm *loc_time = localtime(&t);
 #ifdef WITH_IPSET
 			sprintf(msg,
-					"%04d/%02d/%02d-%02d:%02d:%02d %s pid=%d ipset del block_ip %s\n",
+					"%04d/%02d/%02d %02d:%02d:%02d %s pid=%d ipset del block_ip %s\n",
 					loc_time->tm_year + 1900, loc_time->tm_mon + 1, loc_time->tm_mday, loc_time->tm_hour,
 					loc_time->tm_min, loc_time->tm_sec, __progname, getpid(),
 					reply->element[3]->str);
 #else
 			sprintf(msg,
-					"%04d/%02d/%02d-%02d:%02d:%02d %s pid=%d iptables -D INPUT -s %s -j DROP\n",
+					"%04d/%02d/%02d %02d:%02d:%02d %s pid=%d iptables -D INPUT -s %s -j DROP\n",
 					loc_time->tm_year + 1900, loc_time->tm_mon + 1, loc_time->tm_mday, loc_time->tm_hour,
 					loc_time->tm_min, loc_time->tm_sec, __progname, getpid(),
 					reply->element[3]->str);
