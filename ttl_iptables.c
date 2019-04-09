@@ -227,6 +227,7 @@ int main(int argc, char **argv) {
         }
 
         setsid();
+        chdir("/");
      close(0); /* close stdin */
      close(1); /* close stdout */
      close(2); /* close stderr */
