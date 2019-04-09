@@ -169,10 +169,8 @@ First edit the /etc/pf.conf file and add the code as follows:
 ```
 table <block_ip> persist file "/etc/pf.block_ip.conf"
 table <allow_ip> persist file "/etc/pf.allow_ip.conf"
-block in log proto tcp from <block_ip> to any
-block in log proto udp from <block_ip> to any
-pass in proto tcp from <allow_ip> to any
-pass in proto udp from <allow_ip> to any
+block in log proto {tcp,udp,sctp,icmp} from <block_ip> to any
+pass in proto {tcp,udp,sctp,icmp} from <allow_ip> to any
 ```
 then 
 ```
