@@ -152,7 +152,7 @@ If you need to enable ipset, you must configure the following settings
 ```
 The `timeout` parameter and  `ttl.drop.insert` parameter has the same effect. If the `timeout` parameter is configured, ipset is used to implement periodic deletion. If the `timeout` parameter is not configured, it is periodic deletion used `ttl.drop.insert`.
 
-#### Installing Packages on BSD
+#### Installing Packages on BSD or MacOS
 ```
   #1: Compile hiredis
     cd redis-4.0**version**/deps/hiredis
