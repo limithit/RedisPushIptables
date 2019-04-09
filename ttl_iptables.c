@@ -229,6 +229,9 @@ int main(int argc, char **argv) {
 #ifdef WITH_IPSET
 			sprintf(insert_command, "ipset del block_ip %s",
 					reply->element[3]->str);
+#elif BSD
+			sprintf(insert_command, "pfctl -t block_ip -T del %s",
+					reply->element[3]->str);
 #else
 			sprintf(insert_command, "iptables -D INPUT -s %s -j DROP",
 					reply->element[3]->str);
@@ -238,6 +241,12 @@ int main(int argc, char **argv) {
 #ifdef WITH_IPSET
 			sprintf(msg,
 					"%04d/%02d/%02d %02d:%02d:%02d %s pid=%d ipset del block_ip %s\n",
+					loc_time->tm_year + 1900, loc_time->tm_mon + 1, loc_time->tm_mday, loc_time->tm_hour,
+					loc_time->tm_min, loc_time->tm_sec, __progname, getpid(),
+					reply->element[3]->str);
+#elif BSD
+			sprintf(msg,
+					"%04d/%02d/%02d %02d:%02d:%02d %s pid=%d pfctl -t block_ip -T del %s\n",
 					loc_time->tm_year + 1900, loc_time->tm_mon + 1, loc_time->tm_mday, loc_time->tm_hour,
 					loc_time->tm_min, loc_time->tm_sec, __progname, getpid(),
 					reply->element[3]->str);
