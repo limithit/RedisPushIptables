@@ -215,7 +215,20 @@ int main(int argc, char **argv) {
 		}
 		exit(1);
 	}
-	daemon(0, 0);
+#ifdef BSD
+        pid_t pidt = fork();
+	
+        if (pidt != 0) {
+                exit(0);
+        }
+
+        setsid();
+     close(0); /* close stdin */
+     close(1); /* close stdout */
+     close(2); /* close stderr */
+#else
+        daemon(0, 0);
+#endif
 	acquire_daemonlock(0);
 	static char insert_command[256];
 	static char msg[1024];
