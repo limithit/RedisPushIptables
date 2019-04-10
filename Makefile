@@ -4,6 +4,10 @@ uname_S := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 ifeq ($(uname_S),Linux)
 	SHOBJ_CFLAGS ?= -W -Wall -fno-common -g -ggdb -std=c99 -O2 
 	SHOBJ_LDFLAGS ?= -shared
+else ifeq ($(uname_S),Darwin)
+mac_S  := $(shell sh -c 'sw_vers|grep ProductVersion|cut -f 2')
+        SHOBJ_CFLAGS ?= -W -Wall -fno-common -g -ggdb -std=c99 -O2
+        SHOBJ_LDFLAGS ?= -bundle -undefined dynamic_lookup -macosx_version_min $(mac_S)
 else
 	SHOBJ_CFLAGS ?= -W -Wall -dynamic -fno-common -g -ggdb -std=c99 -O2 
 	SHOBJ_LDFLAGS ?= -bundle -undefined dynamic_lookup
@@ -14,7 +18,7 @@ endif
 all: iptablespush.so ttl_iptables
 
 ttl_iptables: ttl_iptables.c
-		$(CC) ttl_iptables.c -o $@ -I/usr/local/include/hiredis -lhiredis $(CFLAGS)
+		$(CC) ttl_iptables.c -o $@ -I/usr/local/include/hiredis -L/usr/local/lib -lhiredis $(CFLAGS)
 
 .c.xo:
 	$(CC) -I. $(CFLAGS) $(SHOBJ_CFLAGS) -fPIC -c $< -o $@
