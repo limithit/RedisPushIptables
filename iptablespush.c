@@ -125,7 +125,7 @@ int DROP_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
 	sprintf(insert_command, "ipset del block_ip %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #elif BSD
-	sprintf(insert_command, " pfctl -t block_ip -T del %s",
+	sprintf(insert_command, " pfctl -t block_ip -T delete %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #else
 	sprintf(insert_command, "iptables -D INPUT -s %s -j DROP",
@@ -209,7 +209,7 @@ int ACCEPT_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 	sprintf(insert_command, "ipset del allow_ip %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #elif BSD
-	sprintf(insert_command, " pfctl -t allow_ip -T del %s",
+	sprintf(insert_command, " pfctl -t allow_ip -T delete %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #else
 	sprintf(insert_command, "iptables -D INPUT -s %s -j ACCEPT",
