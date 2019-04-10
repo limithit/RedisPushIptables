@@ -292,6 +292,15 @@ int main(int argc, char **argv) {
 			sigchld_reaper();
 		}
 	}
+	       time_t err_t = time(NULL);
+               struct tm *err_loc_time = localtime(&err_t);
+               static char err_msg[1024];
+               sprintf(err_msg, "%04d/%02d/%02d %02d:%02d:%02d Redis connection error: %s\n",
+                               err_loc_time->tm_year + 1900, err_loc_time->tm_mon + 1, err_loc_time->tm_mday,
+		               err_loc_time->tm_hour, err_loc_time->tm_min, err_loc_time->tm_sec, c->errstr);
+               write(logfd, err_msg, strlen(err_msg));
+               close(logfd);
+	
 	return 0;
 }
 
