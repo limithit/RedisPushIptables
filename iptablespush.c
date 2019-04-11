@@ -77,6 +77,10 @@ int DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
 	static char insert_command[256];
 	sprintf(insert_command, " pfctl -t block_ip -T add %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
+#elif WITH_NFTABLES
+	static char insert_command[256];
+	sprintf(insert_command, "nft insert rule ip redis INPUT ip saddr %s drop",
+			RedisModule_StringPtrLen(argv[1], NULL));
 #else
 	static char check_command[256], insert_command[256];
 	char tmp_buf[4096];
@@ -87,7 +91,7 @@ int DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
 #endif
 	printf("%s || %s\n", RedisModule_StringPtrLen(argv[0], NULL),
 			RedisModule_StringPtrLen(argv[1], NULL));
-#if defined (WITH_IPSET) || defined (BSD)
+#if defined (WITH_IPSET) || defined (BSD) || defined (WITH_NFTABLES)
 	fd = execute_popen(&pid, insert_command);
 	redis_waitpid(pid);
 	close(fd);
@@ -121,7 +125,10 @@ int DROP_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
 	sprintf(insert_command, "ipset del block_ip %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #elif BSD
-	sprintf(insert_command, " pfctl -t block_ip -T delete %s",
+	sprintf(insert_command, "pfctl -t block_ip -T delete %s",
+			RedisModule_StringPtrLen(argv[1], NULL));
+#elif WITH_NFTABLES
+	sprintf(insert_command, "nft delete rule redis INPUT `nft list table ip redis --handle --numeric |grep  -m1 \"ip saddr %s drop\"|grep -oe \"handle [0-9]*\"`",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #else
 	sprintf(insert_command, "iptables -D INPUT -s %s -j DROP",
@@ -155,7 +162,11 @@ int ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 			RedisModule_StringPtrLen(argv[1], NULL));
 #elif BSD
 	static char insert_command[256];
-	sprintf(insert_command, " pfctl -t allow_ip -T add %s",
+	sprintf(insert_command, "pfctl -t allow_ip -T add %s",
+			RedisModule_StringPtrLen(argv[1], NULL));
+#elif WITH_NFTABLES
+	static char insert_command[256];
+	sprintf(insert_command, "nft insert rule ip redis INPUT ip saddr %s accept",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #else
 	char tmp_buf[4096];
@@ -167,7 +178,7 @@ int ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 #endif
 	printf("%s || %s\n", RedisModule_StringPtrLen(argv[0], NULL),
 			RedisModule_StringPtrLen(argv[1], NULL));
-#if defined (WITH_IPSET) || defined (BSD)
+#if defined (WITH_IPSET) || defined (BSD) || defined (WITH_NFTABLES)
 	fd = execute_popen(&pid, insert_command);
 	redis_waitpid(pid);
 	close(fd);
@@ -201,7 +212,10 @@ int ACCEPT_Delete_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 	sprintf(insert_command, "ipset del allow_ip %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #elif BSD
-	sprintf(insert_command, " pfctl -t allow_ip -T delete %s",
+	sprintf(insert_command, "pfctl -t allow_ip -T delete %s",
+			RedisModule_StringPtrLen(argv[1], NULL));
+#elif WITH_NFTABLES
+	sprintf(insert_command, "nft delete rule redis INPUT `nft list table ip redis --handle --numeric |grep  -m1 \"ip saddr %s accept\"|grep -oe \"handle [0-9]*\"`",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #else
 	sprintf(insert_command, "iptables -D INPUT -s %s -j ACCEPT",
@@ -239,7 +253,11 @@ int TTL_DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, 
 			RedisModule_StringPtrLen(argv[1], NULL));
 #elif BSD
 	static char insert_command[256];
-	sprintf(insert_command, " pfctl -t block_ip -T add %s",
+	sprintf(insert_command, "pfctl -t block_ip -T add %s",
+			RedisModule_StringPtrLen(argv[1], NULL));
+#elif WITH_NFTABLES
+	static char insert_command[256];
+	sprintf(insert_command, "nft insert rule ip redis INPUT ip saddr %s drop",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #else
 	static char check_command[256], insert_command[256];
@@ -251,7 +269,7 @@ int TTL_DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, 
 #endif
 	printf("%s || %s\n", RedisModule_StringPtrLen(argv[0], NULL),
 			RedisModule_StringPtrLen(argv[1], NULL));
-#if defined (WITH_IPSET) || defined (BSD)
+#if defined (WITH_IPSET) || defined (BSD) || defined (WITH_NFTABLES)
 	fd = execute_popen(&pid, insert_command);
 	redis_waitpid(pid);
 	close(fd);
