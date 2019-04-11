@@ -87,7 +87,7 @@ root@debian:~/RedisPushIptables# /etc/init.d/ttl_iptables start
 
 Logs are viewed in /var/log/ttl_iptables.log
 ```
-root@debian:~# redis-cli TTL.DROP.INSERT 192.168.18.5 60  
+root@debian:~# redis-cli TTL_DROP_INSERT 192.168.18.5 60  
 (integer) 12
 root@debian:~# date
 Fri Mar 15 09:38:49 CST 2019    
@@ -109,15 +109,15 @@ target     prot opt source               destination
 * [drop.delete](#Core) - Filter table INPUT DEL DROP
 * [ttl.drop.insert](#Core) - Dynamic delete filter table INPUT ADD DROP
 ```
-127.0.0.1:6379>accept.insert 192.168.188.8
+127.0.0.1:6379>accept_insert 192.168.188.8
 (integer) 13
-127.0.0.1:6379>accept.delete 192.168.188.8
+127.0.0.1:6379>accept_delete 192.168.188.8
 (integer) 13
-127.0.0.1:6379>drop.delete 192.168.188.8
+127.0.0.1:6379>drop_delete 192.168.188.8
 (integer) 13
-127.0.0.1:6379>drop.insert 192.168.188.8
+127.0.0.1:6379>drop_insert 192.168.188.8
 (integer) 13
-127.0.0.1:6379> TTL.DROP.INSERT 192.168.1.6 600 #600 seconds
+127.0.0.1:6379> TTL_DROP_INSERT 192.168.1.6 600 #600 seconds
 (integer) 11
 ```
 ```
@@ -215,22 +215,22 @@ int main(int argc, char **argv) {
         exit(1);
 }
 
-    reply = redisCommand(c,"drop.insert 192.168.18.3");
+    reply = redisCommand(c,"drop_insert 192.168.18.3");
     printf("%d\n", reply->integer);
     freeReplyObject(reply);
-    reply = redisCommand(c,"accept.insert 192.168.18.4");
-    printf("%d\n", reply->integer);
-    freeReplyObject(reply);
-
-    reply = redisCommand(c,"drop.delete 192.168.18.3");
+    reply = redisCommand(c,"accept_insert 192.168.18.4");
     printf("%d\n", reply->integer);
     freeReplyObject(reply);
 
-    reply = redisCommand(c,"accept.delete 192.168.18.5");
+    reply = redisCommand(c,"drop_delete 192.168.18.3");
+    printf("%d\n", reply->integer);
+    freeReplyObject(reply);
+
+    reply = redisCommand(c,"accept_delete 192.168.18.5");
     printf("%d\n", reply->integer);
     freeReplyObject(reply);
     
-    reply = redisCommand(c,"ttl.drop.insert 192.168.18.5 600");
+    reply = redisCommand(c,"ttl_drop_insert 192.168.18.5 600");
     printf("%d\n", reply->integer);
     freeReplyObject(reply);
     redisFree(c);
@@ -258,31 +258,31 @@ After downloading, don't rush to compile and install. First edit the redis-py/re
           """
           Return the value at key ``name``, or None if the key doesn't exist
           """
-          return self.execute_command('drop.insert', name)
+          return self.execute_command('drop_insert', name)
       
       def accept_insert(self, name):
           """
           Return the value at key ``name``, or None if the key doesn't exist
           """
-          return self.execute_command('accept.insert', name)
+          return self.execute_command('accept_insert', name)
       
       def drop_delete(self, name):
           """
           Return the value at key ``name``, or None if the key doesn't exist
           """
-          return self.execute_command('drop.delete', name)
+          return self.execute_command('drop_delete', name)
   
       def accept_delete(self, name):
           """
           Return the value at key ``name``, or None if the key doesn't exist
           """
-          return self.execute_command('accept.delete', name)
+          return self.execute_command('accept_delete', name)
  
       def ttl_drop_insert(self, name, blocktime):
           """
           Return the value at key ``name``, or None if the key doesn't exist
           """
-         return self.execute_command('ttl.drop.insert', name, blocktime)
+         return self.execute_command('ttl_drop_insert', name, blocktime)
 ```
 ```
 root@debian:~/bookscode/redis-py# python setup.py build        
@@ -311,12 +311,12 @@ Type "help", "copyright", "credits" or "license" for more information.
 set -x
 for ((i=1; i<=254; i++))
  do
-redis-cli TTL.DROP.INSERT 192.168.17.$i 60 
+redis-cli TTL_DROP_INSERT 192.168.17.$i 60 
 done  
-redis-cli DROP.INSERT 192.168.18.5 
-redis-cli DROP.DELETE 192.168.18.5 
-redis-cli ACCEPT.DELETE 192.168.18.5
-redis-cli ACCEPT.INSERT 192.168.18.5
+redis-cli DROP_INSERT 192.168.18.5 
+redis-cli DROP_DELETE 192.168.18.5 
+redis-cli ACCEPT_INSERT 192.168.18.5
+redis-cli ACCEPT_DELETE 192.168.18.5
 ```
 ### Lua
 ```
@@ -327,11 +327,11 @@ First edit the redis-lua/src/redis.lua file and add the code as follows:
 redis.commands = {
     .....
     ttl              = command('TTL'),
-    drop_insert      = command('drop.insert'),
-    drop_delete      = command('drop.delete'),
-    accept_insert    = command('accept.insert'),
-    accept_delete    = command('accept.delete'),
-    ttl_drop_insert  = command('ttl.drop.insert'),
+    drop_insert      = command('drop_insert'),
+    drop_delete      = command('drop_delete'),
+    accept_insert    = command('accept_insert'),
+    accept_delete    = command('accept_delete'),
+    ttl_drop_insert  = command('ttl_drop_insert'),
     pttl             = command('PTTL'),         -- >= 2.6
      .....
 ```
