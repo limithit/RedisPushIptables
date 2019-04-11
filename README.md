@@ -117,7 +117,7 @@ target     prot opt source               destination
 (integer) 13
 127.0.0.1:6379>drop_insert 192.168.188.8
 (integer) 13
-127.0.0.1:6379> TTL_DROP_INSERT 192.168.1.6 600 #600 seconds
+127.0.0.1:6379>ttl_drop_insert 192.168.1.6 600 #600 seconds
 (integer) 11
 ```
 ```
