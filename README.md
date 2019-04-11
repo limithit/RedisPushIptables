@@ -103,11 +103,11 @@ target     prot opt source               destination
 ```
 
 ## Command
-* [accept.insert](#Core) - Filter table INPUT ADD ACCEPT
-* [accept.delete](#Core) - Filter table INPUT DEL ACCEPT
-* [drop.insert](#Core) - Filter table INPUT ADD DROP
-* [drop.delete](#Core) - Filter table INPUT DEL DROP
-* [ttl.drop.insert](#Core) - Dynamic delete filter table INPUT ADD DROP
+* [accept_insert](#Core) - Filter table INPUT ADD ACCEPT
+* [accept_delete](#Core) - Filter table INPUT DEL ACCEPT
+* [drop_insert](#Core) - Filter table INPUT ADD DROP
+* [drop_delete](#Core) - Filter table INPUT DEL DROP
+* [ttl_drop_insert](#Core) - Dynamic delete filter table INPUT ADD DROP
 ```
 127.0.0.1:6379>accept_insert 192.168.188.8
 (integer) 13
