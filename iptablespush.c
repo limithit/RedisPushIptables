@@ -87,11 +87,7 @@ int DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
 #endif
 	printf("%s || %s\n", RedisModule_StringPtrLen(argv[0], NULL),
 			RedisModule_StringPtrLen(argv[1], NULL));
-#ifdef WITH_IPSET
-	fd = execute_popen(&pid, insert_command);
-	redis_waitpid(pid);
-	close(fd);
-#elif BSD
+#if defined (WITH_IPSET) || defined (BSD)
 	fd = execute_popen(&pid, insert_command);
 	redis_waitpid(pid);
 	close(fd);
@@ -171,11 +167,7 @@ int ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 #endif
 	printf("%s || %s\n", RedisModule_StringPtrLen(argv[0], NULL),
 			RedisModule_StringPtrLen(argv[1], NULL));
-#ifdef WITH_IPSET
-	fd = execute_popen(&pid, insert_command);
-	redis_waitpid(pid);
-	close(fd);
-#elif BSD
+#if defined (WITH_IPSET) || defined (BSD)
 	fd = execute_popen(&pid, insert_command);
 	redis_waitpid(pid);
 	close(fd);
@@ -259,11 +251,7 @@ int TTL_DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, 
 #endif
 	printf("%s || %s\n", RedisModule_StringPtrLen(argv[0], NULL),
 			RedisModule_StringPtrLen(argv[1], NULL));
-#ifdef WITH_IPSET
-	fd = execute_popen(&pid, insert_command);
-	redis_waitpid(pid);
-	close(fd);
-#elif BSD
+#if defined (WITH_IPSET) || defined (BSD)
 	fd = execute_popen(&pid, insert_command);
 	redis_waitpid(pid);
 	close(fd);
