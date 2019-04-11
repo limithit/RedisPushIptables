@@ -15,7 +15,7 @@ content
 ## Requirements
 
 1. Redis4.0+
-2. iptables or pfctl
+2. iptables `or pf or nftables`
 3. gcc
 4. make
 
@@ -140,10 +140,10 @@ ACCEPT       all  --  192.168.188.8        0.0.0.0/0
     
   #2: git clone  https://github.com/limithit/RedisPushIptables.git
     cd RedisPushIptables
-    make                                    #OR make CFLAGS=-DWITH_IPSET 
+    make                                    #OR make CFLAGS=-DWITH_IPSET    #OR make CFLAGS=-DWITH_NFTABLES
     make install
    ```
-If you need to enable ipset, you must configure the following settings
+* If you need to enable ipset, you must configure the following settings
 ```
 #ipset create block_ip hash:ip timeout 60 hashsize 4096 maxelem 10000000
 #iptables -I INPUT -m set --match-set block_ip src -j DROP
@@ -152,6 +152,11 @@ If you need to enable ipset, you must configure the following settings
 ```
 The `timeout` parameter and  `ttl_drop_insert` parameter has the same effect. If the `timeout` parameter is configured, ipset is used to implement periodic deletion. If the `timeout` parameter is not configured, it is periodic deletion used `ttl_drop_insert`.
 
+* If you need to enable nftables, you must configure the following settings 
+```
+#nft add table redis
+#nft add chain redis INPUT \{ type filter hook input priority 0\; policy accept\; \}
+```
 #### Installing Packages on BSD and MacOS
 ```
   #1: Compile hiredis
