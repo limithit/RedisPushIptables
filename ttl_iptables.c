@@ -250,6 +250,9 @@ int main(int argc, char **argv) {
 #elif BSD
 			sprintf(insert_command, "pfctl -t block_ip -T del %s",
 					reply->element[3]->str);
+#elif WITH_NFTABLES
+                        sprintf(insert_command, "nft delete rule redis INPUT `nft list table ip redis --handle --numeric |grep  -m1 \"ip saddr %s drop\"|grep -oe \"handle [0-9]*\"`",
+					reply->element[3]->str);
 #else
 			sprintf(insert_command, "iptables -D INPUT -s %s -j DROP",
 					reply->element[3]->str);
@@ -265,6 +268,12 @@ int main(int argc, char **argv) {
 #elif BSD
 			sprintf(msg,
 					"%04d/%02d/%02d %02d:%02d:%02d %s pid=%d pfctl -t block_ip -T del %s\n",
+					loc_time->tm_year + 1900, loc_time->tm_mon + 1, loc_time->tm_mday, loc_time->tm_hour,
+					loc_time->tm_min, loc_time->tm_sec, __progname, getpid(),
+					reply->element[3]->str);
+#elif WITH_NFTABLES
+			sprintf(msg,
+					"%04d/%02d/%02d %02d:%02d:%02d %s pid=%d nft delete rule redis INPUT `nft list table ip redis --handle --numeric |grep  -m1 \"ip saddr %s drop\"|grep -oe \"handle [0-9]*\"`\n",
 					loc_time->tm_year + 1900, loc_time->tm_mon + 1, loc_time->tm_mday, loc_time->tm_hour,
 					loc_time->tm_min, loc_time->tm_sec, __progname, getpid(),
 					reply->element[3]->str);
