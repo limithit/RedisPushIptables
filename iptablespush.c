@@ -298,19 +298,19 @@ int RedisModule_OnLoad(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) 
 		printf("Module loaded with ARGV[%d] = %s\n", j, s);
 	}
 
-	if (RedisModule_CreateCommand(ctx, "drop.insert", DROP_Insert_RedisCommand,
+	if (RedisModule_CreateCommand(ctx, "drop_insert", DROP_Insert_RedisCommand,
 			"write deny-oom", 1, 1, 1) == REDISMODULE_ERR)
 		return REDISMODULE_ERR;
-	if (RedisModule_CreateCommand(ctx, "drop.delete", DROP_Delete_RedisCommand,
+	if (RedisModule_CreateCommand(ctx, "drop_delete", DROP_Delete_RedisCommand,
 			"write deny-oom", 1, 1, 1) == REDISMODULE_ERR)
 		return REDISMODULE_ERR;
-	if (RedisModule_CreateCommand(ctx, "accept.insert", ACCEPT_Insert_RedisCommand,
+	if (RedisModule_CreateCommand(ctx, "accept_insert", ACCEPT_Insert_RedisCommand,
 			"write deny-oom", 1, 1,	1) == REDISMODULE_ERR)
 		return REDISMODULE_ERR;
-	if (RedisModule_CreateCommand(ctx, "accept.delete", ACCEPT_Delete_RedisCommand,
+	if (RedisModule_CreateCommand(ctx, "accept_delete", ACCEPT_Delete_RedisCommand,
 			"write deny-oom", 1, 1,	1) == REDISMODULE_ERR)
 		return REDISMODULE_ERR;
-	if (RedisModule_CreateCommand(ctx, "ttl.drop.insert", TTL_DROP_Insert_RedisCommand,
+	if (RedisModule_CreateCommand(ctx, "ttl_drop_insert", TTL_DROP_Insert_RedisCommand,
 			"write deny-oom", 1, 1, 1) == REDISMODULE_ERR)
 		return REDISMODULE_ERR;
 
