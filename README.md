@@ -11,7 +11,7 @@ content
 * [Command](#Command)
 * [HOWTOs](#HOWTOs)
 * [Installation](#Installation)
-
+* [Point](#Point)
 ## Requirements
 
 1. Redis4.0+
@@ -364,7 +364,8 @@ local value = client:get('192.168.1.2')
 
 print(value)
 ```
-
+## Point
+The nftables master server does not provide duplicate rule detection, providing duplicate rule detection in the branch. Because this will affect the speed of nftables execution, you need to make your own choices. *limithit-patch-1
 Lauchpad Pump Demo
 =========================
 ~~Click below for a video of the pump controller demo in operation:~~
