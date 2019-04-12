@@ -176,7 +176,7 @@ int ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 			RedisModule_StringPtrLen(argv[1], NULL));
 #elif WITH_NFTABLES
 	static char insert_command[256], del_after_insert[256];
-        sprintf(del_after_insert, "nft delete rule redis INPUT `nft list table ip redis --handle --numeric |grep  -m1 \"ip saddr %s drop\"|grep -oe \"handle [0-9]*\"`",
+        sprintf(del_after_insert, "nft delete rule redis INPUT `nft list table ip redis --handle --numeric |grep  -m1 \"ip saddr %s accept\"|grep -oe \"handle [0-9]*\"`",
                         RedisModule_StringPtrLen(argv[1], NULL));
 	sprintf(insert_command, "nft insert rule ip redis INPUT ip saddr %s accept",
 			RedisModule_StringPtrLen(argv[1], NULL));
