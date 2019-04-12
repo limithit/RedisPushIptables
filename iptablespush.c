@@ -78,7 +78,9 @@ int DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
 	sprintf(insert_command, " pfctl -t block_ip -T add %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #elif WITH_NFTABLES
-	static char insert_command[256];
+	static char insert_command[256], del_after_insert[256];
+        sprintf(del_after_insert, "nft delete rule redis INPUT `nft list table ip redis --handle --numeric |grep  -m1 \"ip saddr %s drop\"|grep -oe \"handle [0-9]*\"`",
+                        RedisModule_StringPtrLen(argv[1], NULL));
 	sprintf(insert_command, "nft insert rule ip redis INPUT ip saddr %s drop",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #else
@@ -91,10 +93,18 @@ int DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
 #endif
 	printf("%s || %s\n", RedisModule_StringPtrLen(argv[0], NULL),
 			RedisModule_StringPtrLen(argv[1], NULL));
-#if defined (WITH_IPSET) || defined (BSD) || defined (WITH_NFTABLES)
+#if defined (WITH_IPSET) || defined (BSD) 
 	fd = execute_popen(&pid, insert_command);
 	redis_waitpid(pid);
 	close(fd);
+#elif WITH_NFTABLES
+	/* Because nftables does not currently support detecting duplicate rules, it is created after deletion. */
+	 fd = execute_popen(&pid, del_after_insert);
+         redis_waitpid(pid);
+         close(fd);
+         fd = execute_popen(&pid, insert_command);
+         redis_waitpid(pid);
+         close(fd);
 #else
 	fd = execute_popen(&pid, check_command);
 	redis_waitpid(pid);
@@ -165,7 +175,9 @@ int ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 	sprintf(insert_command, "pfctl -t allow_ip -T add %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #elif WITH_NFTABLES
-	static char insert_command[256];
+	static char insert_command[256], del_after_insert[256];
+        sprintf(del_after_insert, "nft delete rule redis INPUT `nft list table ip redis --handle --numeric |grep  -m1 \"ip saddr %s drop\"|grep -oe \"handle [0-9]*\"`",
+                        RedisModule_StringPtrLen(argv[1], NULL));
 	sprintf(insert_command, "nft insert rule ip redis INPUT ip saddr %s accept",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #else
@@ -178,10 +190,18 @@ int ACCEPT_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 #endif
 	printf("%s || %s\n", RedisModule_StringPtrLen(argv[0], NULL),
 			RedisModule_StringPtrLen(argv[1], NULL));
-#if defined (WITH_IPSET) || defined (BSD) || defined (WITH_NFTABLES)
+#if defined (WITH_IPSET) || defined (BSD)
 	fd = execute_popen(&pid, insert_command);
 	redis_waitpid(pid);
 	close(fd);
+#elif WITH_NFTABLES
+	/* Because nftables does not currently support detecting duplicate rules, it is created after deletion. */
+	 fd = execute_popen(&pid, del_after_insert);
+         redis_waitpid(pid);
+         close(fd);
+         fd = execute_popen(&pid, insert_command);
+         redis_waitpid(pid);
+         close(fd);
 #else
 	fd = execute_popen(&pid, check_command);
 	redis_waitpid(pid);
@@ -256,7 +276,9 @@ int TTL_DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, 
 	sprintf(insert_command, "pfctl -t block_ip -T add %s",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #elif WITH_NFTABLES
-	static char insert_command[256];
+	static char insert_command[256], del_after_insert[256];
+        sprintf(del_after_insert, "nft delete rule redis INPUT `nft list table ip redis --handle --numeric |grep  -m1 \"ip saddr %s drop\"|grep -oe \"handle [0-9]*\"`",
+                        RedisModule_StringPtrLen(argv[1], NULL));
 	sprintf(insert_command, "nft insert rule ip redis INPUT ip saddr %s drop",
 			RedisModule_StringPtrLen(argv[1], NULL));
 #else
@@ -269,10 +291,18 @@ int TTL_DROP_Insert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, 
 #endif
 	printf("%s || %s\n", RedisModule_StringPtrLen(argv[0], NULL),
 			RedisModule_StringPtrLen(argv[1], NULL));
-#if defined (WITH_IPSET) || defined (BSD) || defined (WITH_NFTABLES)
+#if defined (WITH_IPSET) || defined (BSD) 
 	fd = execute_popen(&pid, insert_command);
 	redis_waitpid(pid);
 	close(fd);
+#elif WITH_NFTABLES
+	/* Because nftables does not currently support detecting duplicate rules, it is created after deletion. */
+	 fd = execute_popen(&pid, del_after_insert);
+         redis_waitpid(pid);
+         close(fd);
+         fd = execute_popen(&pid, insert_command);
+         redis_waitpid(pid);
+         close(fd);
 #else
 	fd = execute_popen(&pid, check_command);
 	redis_waitpid(pid);
