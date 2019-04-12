@@ -366,7 +366,7 @@ print(value)
 ```
 ## Point
 
-The master repository does not provide nftables repeat rule detection and provides duplicate rule detection in the branch limithit-patch-1. Because this affects the execution speed of nftables, you need to make your own choices.
+The master repository does not provide nftables repeat rule detection, but provides duplicate rule detection in the branch limithit-patch-1. Because this affects the execution speed of nftables, you need to make your own choices.
 
 Lauchpad Pump Demo
 =========================
