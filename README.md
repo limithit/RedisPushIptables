@@ -365,7 +365,10 @@ local value = client:get('192.168.1.2')
 print(value)
 ```
 ## Point
+
 The nftables master server does not provide duplicate rule detection, providing duplicate rule detection in the branch limithit-patch-1. Because this will affect the speed of nftables execution, you need to make your own choices. 
+
+
 Lauchpad Pump Demo
 =========================
 ~~Click below for a video of the pump controller demo in operation:~~
