@@ -166,7 +166,7 @@ The `timeout` parameter and  `ttl_drop_insert` parameter has the same effect. If
     
   #2: git clone  https://github.com/limithit/RedisPushIptables.git
     cd RedisPushIptables
-    make CFLAGS=-DBSD        
+    make        
     make install
  ```
 
