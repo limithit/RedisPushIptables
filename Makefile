@@ -5,10 +5,12 @@ ifeq ($(uname_S),Linux)
 	SHOBJ_CFLAGS ?= -W -Wall -fno-common -g -ggdb -std=c99 -O2 
 	SHOBJ_LDFLAGS ?= -shared
 else ifeq ($(uname_S),Darwin)
+        CFLAGS+=-DBSD
 mac_S  := $(shell sh -c 'sw_vers|grep ProductVersion|cut -f 2')
         SHOBJ_CFLAGS ?= -W -Wall -fno-common -g -ggdb -std=c99 -O2
         SHOBJ_LDFLAGS ?= -bundle -undefined dynamic_lookup -macosx_version_min $(mac_S)
 else
+        CFLAGS+=-DBSD
 	SHOBJ_CFLAGS ?= -W -Wall -dynamic -fno-common -g -ggdb -std=c99 -O2 
 	SHOBJ_LDFLAGS ?= -bundle -undefined dynamic_lookup
 endif
